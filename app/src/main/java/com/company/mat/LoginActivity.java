@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,12 +19,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "EmailPassword";
     public ProgressDialog mProgressDialog;
     private FirebaseAuth mAuth;
     private EditText email;
     private EditText password;
-    private TextView mStatusTextView;
+    private TextView statusTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email = findViewById(R.id.field_email);
         password = findViewById(R.id.field_password);
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
-        mStatusTextView = findViewById(R.id.status);
+        findViewById(R.id.email_create_account_button).setOnClickListener(this);
+        statusTest = findViewById(R.id.status);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -51,53 +50,84 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
         if (!checkInput()) {
             return;
         }
 
         showProgressDialog();
 
-        // [START sign_in_with_email]
+        // here we sign in with email and password
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
 
-                        // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
+                            statusTest.setText(R.string.auth_failed);
                         }
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END sign_in_with_email]
+    }
+
+    private void createAccount(String email, String password) {
+        if (!checkInput()) {
+            return;
+        }
+
+        showProgressDialog();
+
+        // create a user from email and password
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        hideProgressDialog();
+                    }
+                });
+        // [END create_user_with_email]
     }
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.email_sign_in_button)
+        if (i == R.id.email_sign_in_button) {
             signIn(email.getText().toString(), password.getText().toString());
+        } else if (i == R.id.email_create_account_button) {
+            createAccount(email.getText().toString(), password.getText().toString());
+        }
+
     }
 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         // here transition to the new activitiy with the user passed
         // needs to keep the user logged in ++++++
+        // add sign out
+
         if (user != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
