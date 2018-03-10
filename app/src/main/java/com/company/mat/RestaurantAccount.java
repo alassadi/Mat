@@ -1,5 +1,6 @@
 package com.company.mat;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,5 +37,9 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
     @Override
     public void onListFragmentInteraction(ListItem item) {
         Toast.makeText(this, "Hello there.", Toast.LENGTH_SHORT).show();
+
+        if (item.getEntry().equalsIgnoreCase("Edit profile")) {
+            startActivity(new Intent(this, EditRestaurantProfile.class));
+        }
     }
 }

@@ -13,8 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.company.mat.Model.Restaurant;
 import com.company.mat.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
 
@@ -30,11 +38,14 @@ public class RestaurantBannerFragment extends Fragment {
     private ContentResolver contentResolver;
     private ImageButton imageButton;
 
+    private TextView name, description;
+    private DatabaseReference dbref;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstances) {
         View v = inflater.inflate(R.layout.fragment_restaurant_banner, container, false);
-        TextView name = v.findViewById(R.id.tvRestaurantName);
-        TextView description = v.findViewById(R.id.tvRestaurantDescription);
+        name = v.findViewById(R.id.tvRestaurantName);
+        description = v.findViewById(R.id.tvRestaurantDescription);
         imageButton = v.findViewById(R.id.profilePicture);
 
         contentResolver = v.getContext().getContentResolver();
@@ -47,10 +58,34 @@ public class RestaurantBannerFragment extends Fragment {
             }
         });
 
-        Log.w("OnCreateView", "RestaurantFragment Inflated");
+        dbref = FirebaseDatabase.getInstance().getReference()
+                .child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                if (restaurant != null) {
+                    name.setText(restaurant.getName());
+                    description.setText(restaurant.getDescription());
+//                    if (restaurant.getImage()!=null){
+//                        imageButton.setImageBitmap(restaurant.getImage());
+//                    }
+                } else {
+                    Toast.makeText(getContext(), "Restaurant is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // log a message
+                Log.w(" ", "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        dbref.addValueEventListener(postListener);
         return v;
     }
+
 
 
     @Override
@@ -65,7 +100,8 @@ public class RestaurantBannerFragment extends Fragment {
                         Bitmap image = decodeUri(selectedImage);
 
                         imageButton.setImageBitmap(image);
-
+                        dbref = FirebaseDatabase.getInstance().getReference();
+                        dbref.child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("image").setValue(image);
                     } catch (Exception e) {
                         Log.e("Picture selection", e.getMessage());
                     }
