@@ -120,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             createAccount(email.getText().toString(), password.getText().toString());
         }
 
+
     }
 
     private void updateUI(FirebaseUser user) {
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // add sign out
 
         if (user != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, DeliveryManActivity.class);
             startActivity(intent);
         }
     }

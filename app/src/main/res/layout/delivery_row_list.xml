@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_View="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="5dp"
+    card_View:cardBackgroundColor="#fff"
+    card_View:cardCornerRadius="5dp"
+    android:layout_margin="10dp">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/singel_Row"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    tools:context="com.company.mat.DeliveryManActivity">
+
+    <TextView
+        android:id="@+id/textView_customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:text="@string/customerName"
+        android:textSize="15dp"
+        tools:text="name" />
+
+    <TextView
+        android:id="@+id/textView_rest_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="150dp"
+        android:padding="5dp"
+        android:text="@string/restaurantName"
+        android:textSize="15dp"
+        tools:text="restaurant name" />
+
+    <TextView
+        android:id="@+id/textView_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="290dp"
+        android:text="@string/timeFood" />
+
+</RelativeLayout>
+</android.support.v7.widget.CardView>
