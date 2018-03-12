@@ -23,7 +23,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RestaurantAccount" />
         <activity android:name=".EditRestaurantProfile" />
-        <activity android:name=".RestaurantEditAddress"></activity>
+        <activity android:name=".RestaurantEditAddress" />
+        <activity android:name=".RestaurantEditMenu"></activity>
     </application>
 
 </manifest>

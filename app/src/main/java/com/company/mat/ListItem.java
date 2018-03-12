@@ -17,6 +17,7 @@ public class ListItem<T> {
     }
 
     public ListItem() {
+        elements = new ArrayList<>();
     }
 
     public T getEntry(int index) {
@@ -29,6 +30,10 @@ public class ListItem<T> {
 
     public void replaceEntry(T entry, int index) {
         elements.set(index, entry);
+    }
+
+    public void remove(T object) {
+        elements.remove(object);
     }
 
     public void add(T entry) {
