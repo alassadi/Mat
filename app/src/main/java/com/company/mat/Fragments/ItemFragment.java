@@ -44,8 +44,10 @@ public class ItemFragment extends Fragment {
 
 
             ArrayList<ListItem> list = new ArrayList<>();
-            list.add(new ListItem("Add menu"));
-            list.add(new ListItem("Edit profile"));
+            list.add(new ListItem<>("My Orders"));
+            list.add(new ListItem<>("Edit menu"));
+            list.add(new ListItem<>("Edit profile"));
+            list.add(new ListItem<>("Edit Address"));
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(list, mListener));
         }
         return view;

@@ -17,20 +17,20 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginBottom="8dp"
-
-
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@+string/profPicture"
+        android:minHeight="90dp"
+        android:minWidth="90dp"
         android:src="@android:drawable/ic_menu_camera"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:targetApi="lollipop"
-        android:layout_marginLeft="8dp" />
+        tools:targetApi="lollipop" />
 
     <TextView
         android:id="@+id/tvRestaurantName"

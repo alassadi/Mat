@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".RestaurantAccount" />
-        <activity android:name=".EditRestaurantProfile"></activity>
+        <activity android:name=".EditRestaurantProfile" />
+        <activity android:name=".RestaurantEditAddress"></activity>
     </application>
 
 </manifest>

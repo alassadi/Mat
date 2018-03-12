@@ -17,4 +17,12 @@
     <string name="restaurantName">Restaurant Name</string>
     <string name="restaurantDescription">Restaurant Description</string>
     <string name="restaurantAddress">Address</string>
+
+    <!-- Address placeholder values and hints -->
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="region">Region</string>
+    <string name="postCode">Post Code</string>
+
+
 </resources>

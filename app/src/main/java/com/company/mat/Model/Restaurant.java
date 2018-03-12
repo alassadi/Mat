@@ -1,8 +1,12 @@
 package com.company.mat.Model;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
+import com.company.mat.ListItem;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,19 +17,23 @@ import java.util.Map;
 public class Restaurant implements Serializable {
     private String name;
     private String description;
-    private String address;
-    //TODO add images
+    private String imageURL;
+    private Address address;
+    private ArrayList<ListItem<String>> menu;
+
 
 
     public Restaurant() {
+        name = "";
+        description = "";
     }
 
-    public Restaurant(String name, String address, String description) {
+    public Restaurant(String name, Address address, String description) {
         this.name = name;
         this.address = address;
         this.description = description;
+        imageURL = " ";
     }
-
 
     public String getName() {
         return name;
@@ -43,21 +51,45 @@ public class Restaurant implements Serializable {
         this.description = description;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
 
-    public Map<String, String> toMap() {
-        HashMap<String, String> map = new HashMap<>();
+    public void setMenu(ArrayList<ListItem<String>> menu) {
+        this.menu = menu;
+    }
+
+    public ArrayList<ListItem<String>> getMenu() {
+        return menu;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public void addMenuCategory(String category) {
+        menu.add(new ListItem<>(category));
+    }
+
+    public void addMenuItem(int category, String menuItem) {
+        menu.get(category).add(menuItem);
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> map = new HashMap<>();
         map.put("name", name);
         map.put("description", description);
         map.put("address", address);
-//        map.put("image",image);
+        map.put("image", imageURL);
+        map.put("menu", menu);
         return map;
     }
 
