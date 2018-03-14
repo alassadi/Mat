@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,16 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.mat.Model.MenuItem;
+
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<ListItem<String>>> expandableListDetail;
+    private HashMap<String, List<MenuItem>> expandableListDetail;
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<ListItem<String>>> expandableListDetail) {
+                                       HashMap<String, List<MenuItem>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -33,7 +34,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
-                .get(expandedListPosition).getEntry(0);
+                .get(expandedListPosition).getName();
     }
 
     @Override

@@ -75,7 +75,7 @@ public class Restaurant implements Serializable {
         map.put("description", description);
         map.put("address", address);
         map.put("image", imageURL);
-        map.put("menu", menu);
+        map.put("menu", menu.getMenu());
         return map;
     }
 
