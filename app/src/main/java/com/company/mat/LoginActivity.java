@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         statusTest = findViewById(R.id.status);
 
         mAuth = FirebaseAuth.getInstance();
+
+        /* this line is to prevent the background image from cropping
+           or resizing when the keyboard appears.
+        */
+        getWindow().setBackgroundDrawableResource(R.drawable.background);
     }
 
     @Override
@@ -129,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // add sign out
 
         if (user != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }
     }
