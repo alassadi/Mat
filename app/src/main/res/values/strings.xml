@@ -26,5 +26,12 @@
     <string name="city">City</string>
     <string name="region">Region</string>
     <string name="postCode">Post Code</string>
-  
+
+    <!-- Menu Items -->
+    <string name="price">Price</string>
+    <string name="itemName">Item Name</string>
+    <string name="categoryName">Category Name</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+
 </resources>
