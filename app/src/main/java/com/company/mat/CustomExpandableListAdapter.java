@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,25 +17,28 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.company.mat.Model.MenuItem;
+import com.company.mat.Model.RestaurantMenuItem;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<MenuItem>> expandableListDetail;
+    private HashMap<String, List<RestaurantMenuItem>> expandableListDetail;
+    private LongPress activity;
+    private TextView lastSelected;
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<MenuItem>> expandableListDetail) {
+                                       HashMap<String, List<RestaurantMenuItem>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+        activity = (LongPress) context;
     }
 
     @Override
-    public Object getChild(int listPosition, int expandedListPosition) {
+    public RestaurantMenuItem getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
-                .get(expandedListPosition).getName();
+                .get(expandedListPosition);
     }
 
     @Override
@@ -43,24 +47,34 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int listPosition, int expandedListPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
-        String expandedListText = (String) getChild(listPosition, expandedListPosition);
+    public View getChildView(final int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final String expandedListText = getChild(listPosition, expandedListPosition).getName();
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.expandable_list_item, null);
         }
         final TextView expandedListTextView = convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+        TextView priceView = convertView.findViewById(R.id.expandedListItemPrice);
+        priceView.setText(this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+                .get(expandedListPosition).getPrice());
+
+        // TODO check onClickListener, not very responsive
+
+        expandedListTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                activity.longPressedChild(expandedListText, String.valueOf(listPosition), String.valueOf(expandedListPosition));
+                if (lastSelected != null) {
+                    lastSelected.setTypeface(Typeface.DEFAULT);
+                }
+                lastSelected = expandedListTextView;
+                expandedListTextView.setTypeface(null, Typeface.BOLD);
 
 
-//
-//        expandedListTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                Toast.makeText(context,expandedListTextView.getText(),Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//        });
+                return true;
+            }
+        });
 
 
         return convertView;
@@ -89,24 +103,28 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int listPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        final String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.expandable_listview_group, null);
         }
         final TextView listTitleTextView = convertView.findViewById(R.id.listTitle);
-        //listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 Toast.makeText(context, listTitleTextView.getText(), Toast.LENGTH_SHORT).show();
-                //TODO allow editing
+
+                activity.longPressedCategory(listTitle);
+                if (lastSelected != null) {
+                    lastSelected.setTypeface(Typeface.DEFAULT);
+                }
+                lastSelected = listTitleTextView;
+                listTitleTextView.setTypeface(null, Typeface.BOLD);
+
                 return true;
             }
         });
         listTitleTextView.setText(listTitle);
-
-
         listTitleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,4 +148,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;
     }
+
+    public interface LongPress {
+        void longPressedCategory(String name);
+
+        void longPressedChild(String category, String groupPosition, String childPosition);
+    }
+
 }

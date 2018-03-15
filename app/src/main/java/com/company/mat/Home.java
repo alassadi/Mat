@@ -1,5 +1,6 @@
 package com.company.mat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,7 @@ import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
 import com.company.mat.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -136,6 +138,10 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_log_out) {
 
+        } else if (id == R.id.nav_profile) {
+            if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("M0fSGuSgK5bWhY4iqoDgsl5Wv8j1")) {
+                startActivity(new Intent(this, RestaurantAccount.class));
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
