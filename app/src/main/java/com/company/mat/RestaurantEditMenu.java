@@ -1,15 +1,21 @@
 package com.company.mat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.company.mat.Model.MenuItem;
+import com.company.mat.Model.RestaurantMenuItem;
 import com.company.mat.Model.RestaurantMenu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,14 +28,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RestaurantEditMenu extends AppCompatActivity {
+public class RestaurantEditMenu extends AppCompatActivity implements CustomExpandableListAdapter.LongPress {
 
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
-    private HashMap<String, List<MenuItem>> expandableListDetail;
+    private HashMap<String, List<RestaurantMenuItem>> expandableListDetail;
 
     private DatabaseReference dbref;
+    private String currentSelection = null;
+
 
 
     private RestaurantMenu menu;
@@ -38,13 +46,15 @@ public class RestaurantEditMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_edit_menu);
+        Toolbar toolbar = findViewById(R.id.restaurantEditMenuToolbar);
+        setSupportActionBar(toolbar);
+
 
 
         if (getIntent().getSerializableExtra("menu") != null) {
             menu = (RestaurantMenu) getIntent().getSerializableExtra("menu");
             menu.addCategory("Add Category");
         } else {
-            Toast.makeText(this, "menu is null", Toast.LENGTH_SHORT).show();
             menu = new RestaurantMenu();
         }
 
@@ -85,7 +95,6 @@ public class RestaurantEditMenu extends AppCompatActivity {
                         menu.addCategory("Add Category");
 
                     } else {
-                        Toast.makeText(expandableListView.getContext(), "menu is null", Toast.LENGTH_SHORT).show();
                         menu = new RestaurantMenu();
                     }
                 }
@@ -109,7 +118,7 @@ public class RestaurantEditMenu extends AppCompatActivity {
                 if (selection.equalsIgnoreCase("add item")) {
                     menu.addItemToCategory(expandableListTitle.get(groupPosition), "new Item");
                     updateList();
-                    //Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_SHORT).show();
                     expandableListView.expandGroup(groupPosition);
                 } else {
                     Intent intent = new Intent(parent.getContext(), MenuItemEdit.class);
@@ -126,6 +135,13 @@ public class RestaurantEditMenu extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.restaurant_edit_toolbar, menu);
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         updateList();
@@ -139,6 +155,85 @@ public class RestaurantEditMenu extends AppCompatActivity {
         expandableListView.setAdapter(expandableListAdapter);
     }
 
-    //TODO allow deletion of a list item and category
+
+    @Override
+    public void longPressedChild(String category, String groupPosition, String childPosition) {
+        currentSelection = "E:" + category + ":" + groupPosition + ":" + childPosition;
+    }
+
+    @Override
+    public void longPressedCategory(String category) {
+        currentSelection = "C:" + category;
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        if (currentSelection == null) {
+            return true;
+        }
+        String[] arr = currentSelection.split(":");
+        if (arr[1].equalsIgnoreCase("Add Category") || arr[1].equalsIgnoreCase("Add item")) {
+            return true;
+        }
+        switch (item.getItemId()) {
+            case R.id.editMenu:
+                if (arr[0].equals("E")) {
+                    Intent intent = new Intent(this, MenuItemEdit.class);
+                    intent.putExtra("menu", menu);
+                    intent.putExtra("parent", expandableListTitle.get(Integer.parseInt(arr[2])));
+                    intent.putExtra("item", arr[1]);
+                    intent.putExtra("itemNo", Integer.parseInt(arr[3]));
+                    intent.putExtra("price", expandableListDetail.get(expandableListTitle.get(Integer.parseInt(arr[2]))).get(Integer.parseInt(arr[3])).getPrice());
+                    startActivity(intent);
+                } else if (arr[0].equals("C")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+                    alert.setTitle("Rename Category");
+                    alert.setMessage("Enter new name for the category.");
+
+                    final EditText input = new EditText(this);
+                    alert.setView(input);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            menu.renameCategory(currentSelection.split(":")[1], input.getText().toString());
+                            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("menu");
+                            dbref.setValue(menu);
+                            updateList();
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                        }
+                    });
+
+                    alert.show();
+                }
+                return true;
+            case R.id.deleteEntry:
+                if (arr[1].equalsIgnoreCase("Add Category") || arr[1].equalsIgnoreCase("Add item")) {
+                    return true;
+                }
+                if (arr[0].equals("E")) {
+                    Log.w("del", arr[1]);
+                    String category = expandableListTitle.get(Integer.parseInt(arr[2]));
+                    menu.removeItem(category, menu.getItemInCategory(category, Integer.parseInt(arr[3])));
+                } else if (arr[0].equals("C")) {
+                    Log.w("del", arr[1]);
+                    menu.removeCategory(arr[1]);
+                }
+                DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("menu");
+                dbref.setValue(menu);
+                updateList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

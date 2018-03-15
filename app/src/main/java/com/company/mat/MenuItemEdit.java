@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.company.mat.Model.MenuItem;
+import com.company.mat.Model.RestaurantMenuItem;
 import com.company.mat.Model.RestaurantMenu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +18,7 @@ public class MenuItemEdit extends AppCompatActivity {
     private EditText name, description, price;
 
     private String parent, item;
-    private MenuItem menuItem;
+    private RestaurantMenuItem menuItem;
     private RestaurantMenu menu;
     private int itemNo;
 

@@ -33,5 +33,7 @@
     <string name="categoryName">Category Name</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
 </resources>
