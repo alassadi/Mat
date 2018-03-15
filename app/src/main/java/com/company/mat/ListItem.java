@@ -1,5 +1,6 @@
 package com.company.mat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * Requiured for view adapter, in order to avoid using 2 dimensional arrays.
  */
 
-public class ListItem<T> {
+public class ListItem<T> implements Serializable {
     private ArrayList<T> elements;
 
     public ListItem(T entry) {
@@ -28,7 +29,17 @@ public class ListItem<T> {
     }
 
     public void replaceEntry(T entry, int index) {
+        if (index >= elements.size()) {
+            elements.add(entry);
+        }
+        if (index < 0) {
+            return;
+        }
         elements.set(index, entry);
+    }
+
+    public void remove(T object) {
+        elements.remove(object);
     }
 
     public void add(T entry) {

@@ -89,10 +89,10 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
             Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
 
         } else if (((String) item.getEntry(0)).equalsIgnoreCase("Edit menu")) {
-            Intent intent = new Intent(this, RestaurantEditAddress.class);
-            intent.putExtra("restaurant", restaurant);
-            //startActivity(intent);
-            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, RestaurantEditMenu.class);
+            intent.putExtra("menu", restaurant.getMenu());
+            startActivity(intent);
+            //Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
         }
     }
 }
