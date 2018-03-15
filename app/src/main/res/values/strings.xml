@@ -26,5 +26,8 @@
     <string name="city">City</string>
     <string name="region">Region</string>
     <string name="postCode">Post Code</string>
-  
+    <string name="menu">Menu</string>
+    <string name="mat">Mat</string>
+    <string name="food">Food</string>
+
 </resources>
