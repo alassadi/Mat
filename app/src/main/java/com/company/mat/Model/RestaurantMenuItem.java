@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by ivana on 3/14/2018.
  */
 
-public class MenuItem implements Serializable {
+public class RestaurantMenuItem implements Serializable {
 
     private String name, price, description;
 
-    public MenuItem() {
+    public RestaurantMenuItem() {
     }
 
-    public MenuItem(String name, String price, String description) {
+    public RestaurantMenuItem(String name, String price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
