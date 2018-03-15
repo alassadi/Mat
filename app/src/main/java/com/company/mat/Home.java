@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
@@ -35,6 +34,7 @@ public class Home extends AppCompatActivity
     TextView fullName;
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,20 +82,22 @@ public class Home extends AppCompatActivity
     }
 
     private void loadMenu() {
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
                 Picasso.get().load(model.getImage()).into(viewHolder.imageView);
                 final Category clickItem = model;
+
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        // here to make it trasfer to item page, but just a toast for test
-                        Toast.makeText(Home.this, "" + clickItem.getName(), Toast.LENGTH_SHORT).show();
+                        // send category id to the food food list activity
+                        Intent food_intent = new Intent(Home.this, FoodList.class);
+                        food_intent.putExtra("CategoryId", adapter.getRef(position).getKey());
+                        startActivity(food_intent);
                     }
                 });
-
             }
         };
         recycler_menu.setAdapter(adapter);

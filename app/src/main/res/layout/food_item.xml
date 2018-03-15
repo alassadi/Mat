@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    android:layout_marginBottom="8dp"
     app:cardElevation="4dp">
 
     <RelativeLayout
@@ -10,20 +11,20 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/menu_image"
+            android:id="@+id/food_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/background" />
 
         <TextView
-            android:id="@+id/menu_name"
+            android:id="@+id/food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#4f0e0d0e"
             android:gravity="center"
-            android:text="@string/menu"
+            android:text="@string/food"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>

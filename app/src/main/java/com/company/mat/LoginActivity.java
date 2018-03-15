@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         // here transition to the new activitiy with the user passed
-        // needs to keep the user logged in ++++++
+
         // add sign out
 
         if (user != null) {
