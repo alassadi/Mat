@@ -1,4 +1,5 @@
 <resources>
+    <!-- Customer part-->
     <string name="app_name">Mat</string>
     <string name="sign_in">Sign In</string>
     <string name="create_account">Create Account</string>
@@ -31,5 +32,14 @@
     <string name="food">Food</string>
     <string name="food_name">Food Name</string>
     <string name="description">Description</string>
+
+    <!-- Menu Items -->
+    <string name="price">Price</string>
+    <string name="itemName">Item Name</string>
+    <string name="categoryName">Category Name</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
 </resources>
