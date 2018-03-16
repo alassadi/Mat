@@ -29,5 +29,7 @@
     <string name="menu">Menu</string>
     <string name="mat">Mat</string>
     <string name="food">Food</string>
+    <string name="food_name">Food Name</string>
+    <string name="description">Description</string>
 
 </resources>

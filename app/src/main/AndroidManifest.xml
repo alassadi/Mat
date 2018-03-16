@@ -26,11 +26,12 @@
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".RestaurantAccount" />
         <activity android:name=".EditRestaurantProfile" />
         <activity android:name=".RestaurantEditAddress" />
-        <activity android:name=".FoodList"></activity>
+        <activity android:name=".FoodList" />
+        <activity android:name=".FoodDetail"></activity>
     </application>
 
 </manifest>
