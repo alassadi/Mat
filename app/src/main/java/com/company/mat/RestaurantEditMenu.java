@@ -50,8 +50,6 @@ public class RestaurantEditMenu extends AppCompatActivity implements CustomExpan
         foods = new ArrayList<>();
 
 
-
-
         if (getIntent().getSerializableExtra("menu") != null) {
             menu = (RestaurantMenu) getIntent().getSerializableExtra("menu");
             menu.addCategory("Add Category");
