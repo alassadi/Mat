@@ -35,6 +35,7 @@ public class Home extends AppCompatActivity
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
+    String restaurantId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +78,20 @@ public class Home extends AppCompatActivity
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
-        loadMenu();
+
+
+        // get intent info
+        if (getIntent() != null) {
+            restaurantId = getIntent().getStringExtra("RestaurantId");
+        }
+        if (!restaurantId.isEmpty() && restaurantId != null) {
+            loadMenu(restaurantId);
+        }
 
     }
 
-    private void loadMenu() {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+    private void loadMenu(String restaurantId) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
