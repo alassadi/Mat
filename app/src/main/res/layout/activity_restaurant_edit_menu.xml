@@ -7,21 +7,21 @@
     android:orientation="vertical"
     tools:context="com.company.mat.RestaurantEditMenu">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/restaurantEditMenuToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            tools:targetApi="lollipop" />
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/restaurantEditMenuToolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--android:elevation="4dp"-->
+    <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+    <!--tools:targetApi="lollipop" />-->
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
 
     <ExpandableListView
         android:id="@+id/restaurantEditMenu"
