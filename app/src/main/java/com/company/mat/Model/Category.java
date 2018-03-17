@@ -1,5 +1,7 @@
 package com.company.mat.Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Abood on 3/13/2018.
  */
@@ -7,17 +9,16 @@ package com.company.mat.Model;
 public class Category {
     private String Name;
     private String Image;
-    private String RestaurantId;
+
+    private ArrayList<String> RestaurantId;
 
     public Category() {
-
     }
 
-
-    public Category(String name, String image, String restaurantId) {
+    public Category(String name, String image) {
         this.Name = name;
         this.Image = image;
-        RestaurantId = restaurantId;
+        RestaurantId = new ArrayList<>();
     }
 
     public String getName() {
@@ -36,12 +37,18 @@ public class Category {
         this.Image = image;
     }
 
+    public void addRestaurant(String restaurant) {
+        if (RestaurantId == null) {
+            RestaurantId = new ArrayList<>();
+        }
+        RestaurantId.add(restaurant);
+    }
 
-    public String getRestaurantId() {
+    public ArrayList<String> getRestaurants() {
         return RestaurantId;
     }
 
-    public void setRestaurantId(String restaurantId) {
-        RestaurantId = restaurantId;
+    public void setRestaurantId(ArrayList<String> list) {
+        RestaurantId = list;
     }
 }

@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
@@ -81,17 +82,17 @@ public class Home extends AppCompatActivity
 
 
         // get intent info
-        if (getIntent() != null) {
+        if (getIntent() != null && getIntent().getStringExtra("RestaurantId") != null) {
             restaurantId = getIntent().getStringExtra("RestaurantId");
         }
-        if (!restaurantId.isEmpty() && restaurantId != null) {
+        if (restaurantId != null) {
             loadMenu(restaurantId);
         }
 
     }
 
     private void loadMenu(String restaurantId) {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
