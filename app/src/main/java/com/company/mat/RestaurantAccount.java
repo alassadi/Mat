@@ -45,6 +45,8 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
                 restaurant = dataSnapshot.getValue(Restaurant.class);
                 if (restaurant != null) {
                     frag.update(restaurant.getName(), restaurant.getDescription());
+                    frag.setImage(restaurant.getImageURL());
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Restaurant is null", Toast.LENGTH_SHORT).show();
                     restaurant = new Restaurant("Restaurant Name", new Address(), "Restaurant Description");

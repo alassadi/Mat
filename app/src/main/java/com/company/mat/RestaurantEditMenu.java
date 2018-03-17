@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import com.company.mat.Model.Category;
 import com.company.mat.Model.Food;
@@ -48,8 +46,6 @@ public class RestaurantEditMenu extends AppCompatActivity implements CustomExpan
         setContentView(R.layout.activity_restaurant_edit_menu);
         categories = new ArrayList<>();
         foods = new ArrayList<>();
-
-
 
 
         if (getIntent().getSerializableExtra("menu") != null) {
@@ -280,6 +276,17 @@ public class RestaurantEditMenu extends AppCompatActivity implements CustomExpan
                 if (!child) {
                     if (cat.equalsIgnoreCase("Add Category")) {
                         menu.addCategory(categories.get(numberPicker.getValue()).getName());
+                        categories.get(numberPicker.getValue()).addRestaurant(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FirebaseDatabase.getInstance().getReference().child("Category")
+                                        .child(String.valueOf("0" + (numberPicker.getValue() + 1))).child("RestaurantId")
+                                        .setValue(categories.get(numberPicker.getValue()).getRestaurants());
+                            }
+                        }).start();
+
                     } else {
                         menu.renameCategory(cat, categories.get(numberPicker.getValue()).getName());
                     }
@@ -289,7 +296,6 @@ public class RestaurantEditMenu extends AppCompatActivity implements CustomExpan
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("menu");
                 dbref.setValue(menu);
 
-                Toast.makeText(expandableListView.getContext(), menu.getMenu().containsKey("Add Category") + "", Toast.LENGTH_SHORT).show();
 
             }
         });
