@@ -1,11 +1,11 @@
 package com.company.mat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Food;
@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 public class FoodList extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseDatabase database;
+    FirebaseDatabase firebaseDatabase;
     DatabaseReference food;
     String categoryId = "";
     FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
@@ -29,8 +29,8 @@ public class FoodList extends AppCompatActivity {
         setContentView(R.layout.activity_food_list);
 
         // firebase
-        database = FirebaseDatabase.getInstance();
-        food = database.getReference("Food");
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        food = firebaseDatabase.getReference("Food");
 
         // Load the menu
         recyclerView = (RecyclerView) findViewById(R.id.recycler_food);
@@ -56,8 +56,9 @@ public class FoodList extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        // here to what to do next
-                        Toast.makeText(FoodList.this, "", Toast.LENGTH_SHORT);
+                        Intent detail = new Intent(FoodList.this, FoodDetail.class);
+                        detail.putExtra("FoodID", adapter.getRef(position).getKey());
+                        startActivity(detail);
                     }
                 });
             }

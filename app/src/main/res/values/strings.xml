@@ -30,8 +30,6 @@
     <string name="menu">Menu</string>
     <string name="mat">Mat</string>
     <string name="food">Food</string>
-    <string name="food_name">Food Name</string>
-    <string name="description">Description</string>
 
     <!-- Menu Items -->
     <string name="price">Price</string>
@@ -41,5 +39,6 @@
     <string name="description">Description</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="food_name">Food Name</string>
 
 </resources>

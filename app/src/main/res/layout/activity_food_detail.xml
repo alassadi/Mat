@@ -34,7 +34,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:title="Food Name"
+                android:title="@string/food_name"
                 app:layout_collapseMode="parallax"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.CollapsingToolbarLayout>
