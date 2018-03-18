@@ -12,12 +12,15 @@ import com.company.mat.Fragments.ItemFragment;
 import com.company.mat.Fragments.RestaurantBannerFragment;
 import com.company.mat.Model.Address;
 import com.company.mat.Model.Restaurant;
+import com.company.mat.Model.RestaurantOrderListItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 
 public class RestaurantAccount extends FragmentActivity implements ItemFragment.OnListFragmentInteractionListener {
@@ -39,6 +42,7 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
         dbref = FirebaseDatabase.getInstance().getReference()
                 .child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -47,8 +51,13 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
                     frag.update(restaurant.getName(), restaurant.getDescription());
                     frag.setImage(restaurant.getImageURL());
 
+                    if (restaurant.getOrders() == null || restaurant.getOrders().isEmpty()) {
+                        HashMap<String, String> items = new HashMap<>();
+                        items.put("pizza", "5");
+                        restaurant.addOrder(new RestaurantOrderListItem("comments", "address", items));
+                        FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(restaurant);
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Restaurant is null", Toast.LENGTH_SHORT).show();
                     restaurant = new Restaurant("Restaurant Name", new Address(), "Restaurant Description");
                 }
             }
@@ -84,17 +93,16 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
             startActivity(intent);
 
         } else if (((String) item.getEntry(0)).equalsIgnoreCase("My Orders")) {
-            Intent intent = new Intent(this, RestaurantEditAddress.class);
+            Intent intent = new Intent(this, RestaurantOrderListActivity.class);
             intent.putExtra("restaurant", restaurant);
-            //startActivity(intent);
+            startActivity(intent);
 
-            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
 
         } else if (((String) item.getEntry(0)).equalsIgnoreCase("Edit menu")) {
             Intent intent = new Intent(this, RestaurantEditMenu.class);
             intent.putExtra("menu", restaurant.getMenu());
             startActivity(intent);
-            //Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
         }
     }
 }
