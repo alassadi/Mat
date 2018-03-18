@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.company.mat.Model.Food;
@@ -41,12 +43,12 @@ public class FoodDetail extends AppCompatActivity {
         foodName = (TextView) findViewById(R.id.food_name);
         foodDescription = (TextView) findViewById(R.id.food_description);
         foodPrice = (TextView) findViewById(R.id.food_price);
-        foodImage = (ImageView) findViewById(R.id.food_image);
+        foodImage = (ImageView) findViewById(R.id.img_food);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsingToolbarStyle);
 
         if (getIntent() != null) {
-            foodId = getIntent().getStringExtra("FoodId");
+            foodId = getIntent().getStringExtra("FoodID");
         }
         //and here to load the info from firebase
         if (!foodId.isEmpty()) {
@@ -55,16 +57,20 @@ public class FoodDetail extends AppCompatActivity {
 
     }
 
-    private void getDetailFood(final String foodId) {
+    private void getDetailFood(String foodId) {
         food.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Food food = dataSnapshot.getValue(Food.class);
-                foodName.setText(food.getName());
-                Picasso.get().load(food.getImage()).into(foodImage);
-                collapsingToolbarLayout.setTitle(food.getName());
-                foodPrice.setText(food.getPrice());
-                foodDescription.setText(food.getDescription());
+                if (food != null) {
+                    foodName.setText(food.getName());
+                    Picasso.get().load(food.getImage()).into(foodImage);
+                    collapsingToolbarLayout.setTitle(food.getName());
+                    foodPrice.setText(food.getPrice());
+                    foodDescription.setText(food.getDescription());
+                } else {
+                    Toast.makeText(getApplicationContext(), "Food is null", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

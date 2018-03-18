@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,25 +59,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         TextView priceView = convertView.findViewById(R.id.expandedListItemPrice);
         priceView.setText(this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition).getPrice());
-
-        // TODO check onClickListener, not very responsive
-
-        expandedListTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                activity.longPressedChild(expandedListText, String.valueOf(listPosition), String.valueOf(expandedListPosition));
-                if (lastSelected != null) {
-                    lastSelected.setTypeface(Typeface.DEFAULT);
-                }
-                lastSelected = expandedListTextView;
-                expandedListTextView.setTypeface(null, Typeface.BOLD);
-
-
-                return true;
-            }
-        });
-
-
         return convertView;
     }
 
@@ -135,6 +117,20 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             }
         });
+
+
+        ImageButton remove = convertView.findViewById(R.id.deleteCategory);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.removeCategory(listTitle);
+            }
+        });
+
+
+        if (listTitle.equalsIgnoreCase("add category")) {
+            remove.setVisibility(View.GONE);
+        }
         return convertView;
 
     }
@@ -152,7 +148,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public interface LongPress {
         void longPressedCategory(String name);
 
-        void longPressedChild(String category, String groupPosition, String childPosition);
+        void removeCategory(String category);
     }
 
 }

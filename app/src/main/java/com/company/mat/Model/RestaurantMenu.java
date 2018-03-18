@@ -17,7 +17,6 @@ public class RestaurantMenu implements Serializable {
         menu = new HashMap<>();
         if (!menu.containsKey("Add Category")) {
             menu.put("Add Category", new ArrayList<RestaurantMenuItem>());
-
         }
     }
 

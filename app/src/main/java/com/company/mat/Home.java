@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
@@ -81,29 +82,31 @@ public class Home extends AppCompatActivity
 
 
         // get intent info
-        if (getIntent() != null) {
+        if (getIntent() != null && getIntent().getStringExtra("RestaurantId") != null) {
             restaurantId = getIntent().getStringExtra("RestaurantId");
         }
-        if (!restaurantId.isEmpty() && restaurantId != null) {
+        if (restaurantId != null) {
             loadMenu(restaurantId);
         }
 
     }
 
     private void loadMenu(String restaurantId) {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
-            protected void populateViewHolder(MenuViewHolder viewHolder, Category model, int position) {
+            protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
                 Picasso.get().load(model.getImage()).into(viewHolder.imageView);
                 final Category clickItem = model;
 
+                final String name = model.getName();
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         // send category id to the food food list activity
                         Intent food_intent = new Intent(Home.this, FoodList.class);
-                        food_intent.putExtra("CategoryId", adapter.getRef(position).getKey());
+                        food_intent.putExtra("CategoryId", name);
+                        //food_intent.putExtra("CategoryId", adapter.getRef(position).getKey());
                         startActivity(food_intent);
                     }
                 });

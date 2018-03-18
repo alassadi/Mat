@@ -1,5 +1,8 @@
 package com.company.mat;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,18 +24,21 @@ public class MenuItemEdit extends AppCompatActivity {
     private RestaurantMenuItem menuItem;
     private RestaurantMenu menu;
     private int itemNo;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_item_edit);
-
+        context = this;
         dbref = FirebaseDatabase.getInstance().getReference();
 
         Button btn = findViewById(R.id.MenuSaveInputButton);
         name = findViewById(R.id.editTextMenuName);
         description = findViewById(R.id.editTextMenuDescription);
         price = findViewById(R.id.editTextMenuPrice);
+
+        Button delete = findViewById(R.id.MenuDeleteItemButton);
 
 
         if (getIntent().getSerializableExtra("menu") != null) {
@@ -77,6 +83,36 @@ public class MenuItemEdit extends AppCompatActivity {
                 dbref.setValue(menu);
 
                 onBackPressed();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+                alert.setTitle("Delete Item");
+                alert.setMessage("This item will be deleted.");
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        menu.removeItem(parent, menuItem);
+                        menu.removeCategory("Add Category");
+                        dbref = FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("menu");
+                        dbref.setValue(menu);
+                        onBackPressed();
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+
+
             }
         });
     }

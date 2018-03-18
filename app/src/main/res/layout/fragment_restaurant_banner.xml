@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
-    android:id="@+id/restaurantBannerFragment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:context="com.company.mat.Fragments.RestaurantBannerFragment">
+    android:layout_height="200dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="4dp">
 
-    <ImageButton
-        android:id="@+id/profilePicture"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
 
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@+string/profPicture"
-        android:minHeight="90dp"
-        android:minWidth="90dp"
-        android:src="@android:drawable/ic_menu_camera"
-        android:visibility="visible"
+        android:id="@+id/restaurantBannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:targetApi="lollipop" />
+        tools:context="com.company.mat.Fragments.RestaurantBannerFragment">
 
-    <TextView
-        android:id="@+id/tvRestaurantName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="20dp"
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/profPicture"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background" />
 
-        android:layout_marginTop="16dp"
-        android:text="@string/restaurantName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/restaurantName" />
+        <TextView
+            android:id="@+id/tvRestaurantName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#810e0d0e"
+            android:gravity="center"
+            android:text="@string/restaurantName"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvRestaurantDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvRestaurantDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="20dp"
 
-        android:layout_marginTop="16dp"
-        android:text="@string/restaurantDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toBottomOf="@+id/tvRestaurantName"
-        tools:text="@+string/restaurantDescription" />
+        <TextView
+            android:id="@+id/tvRestaurantDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#810e0d0e"
+            android:gravity="center"
+            android:text="@string/restaurantDescription"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
+            app:layout_constraintStart_toEndOf="parent"
+            tools:text="@+string/restaurantDescription" />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // add sign out
 
         if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, RestaurantList.class);
+            Intent intent = new Intent(LoginActivity.this, Home.class);
             startActivity(intent);
         }
     }
