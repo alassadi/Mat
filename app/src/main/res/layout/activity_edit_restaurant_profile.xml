@@ -16,6 +16,7 @@
         android:ems="10"
         android:hint="@string/restaurantName"
         android:inputType="textPersonName"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +33,7 @@
         android:inputType="text|textMultiLine"
         android:scrollbars="vertical"
         android:singleLine="false"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRestaurantName" />
@@ -45,6 +47,7 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:text="@string/saveInput"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

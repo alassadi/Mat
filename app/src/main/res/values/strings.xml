@@ -41,4 +41,9 @@
     <string name="edit">Edit</string>
     <string name="food_name">Food Name</string>
 
+    <!-- Restaurant Order Details -->
+    <string name="id">ID</string>
+    <string name="items">Items</string>
+    <string name="done">Set Done</string>
+    <string name="time">Time</string>
 </resources>
