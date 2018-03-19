@@ -1,18 +1,16 @@
 package com.company.mat;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.company.mat.Fragments.ItemFragment;
 import com.company.mat.Fragments.RestaurantBannerFragment;
 import com.company.mat.Model.Address;
 import com.company.mat.Model.Restaurant;
-import com.company.mat.Model.RestaurantOrderListItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

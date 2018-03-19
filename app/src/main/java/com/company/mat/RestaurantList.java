@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.company.mat.Interface.ItemClickListener;
-import com.company.mat.Model.RestaurantModel;
+import com.company.mat.Model.Restaurant;
 import com.company.mat.ViewHolder.RestaurantViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -20,10 +19,9 @@ public class RestaurantList extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference restaurantList;
-    TextView fullName;
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseRecyclerAdapter<RestaurantModel, RestaurantViewHolder> adapter;
+    FirebaseRecyclerAdapter<Restaurant, RestaurantViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,10 @@ public class RestaurantList extends AppCompatActivity {
         toolbar.setTitle("Restaurants");
         setSupportActionBar(toolbar);
         */
+
         // firebase
         database = FirebaseDatabase.getInstance();
-        restaurantList = database.getReference("RestaurantList");
+        restaurantList = database.getReference("restaurants");
 
 
         // set a name for the user // not working yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -53,12 +52,12 @@ public class RestaurantList extends AppCompatActivity {
     }
 
     private void loadRestaurants() {
-        adapter = new FirebaseRecyclerAdapter<RestaurantModel, RestaurantViewHolder>(RestaurantModel.class, R.layout.restaurant_item, RestaurantViewHolder.class, restaurantList) {
+        adapter = new FirebaseRecyclerAdapter<Restaurant, RestaurantViewHolder>(Restaurant.class, R.layout.restaurant_item, RestaurantViewHolder.class, restaurantList) {
             @Override
-            protected void populateViewHolder(RestaurantViewHolder viewHolder, RestaurantModel model, int position) {
+            protected void populateViewHolder(RestaurantViewHolder viewHolder, Restaurant model, int position) {
                 viewHolder.textRestaurantName.setText(model.getName());
-                Picasso.get().load(model.getImage()).into(viewHolder.imageView);
-                final RestaurantModel clickItem = model;
+                Picasso.get().load(model.getImageURL()).into(viewHolder.imageView);
+                final Restaurant clickItem = model;
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override

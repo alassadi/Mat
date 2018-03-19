@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.UUID;
+
 public class FoodDetail extends AppCompatActivity {
     TextView foodName, foodDescription, foodPrice;
     ImageView foodImage;
@@ -42,7 +44,6 @@ public class FoodDetail extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         food = firebaseDatabase.getReference("Food");
         foodOrder = firebaseDatabase.getReference("FoodOrders");
-
         elegantNumberButton = (ElegantNumberButton) findViewById(R.id.number_button);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.buttonCart);
         foodName = (TextView) findViewById(R.id.food_name);
@@ -55,9 +56,11 @@ public class FoodDetail extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                order = new FoodOrder(getIntent().getStringExtra("FoodID").toString(), foodName.getText().toString(), elegantNumberButton.getNumber().toString(), foodPrice.getText().toString());
+                order = new FoodOrder(getIntent().getStringExtra("FoodID").toString(), foodName.getText().toString(), elegantNumberButton.getNumber().toString(), foodPrice.getText().toString(), getIntent().getStringExtra("RestaurantId"));
                 ////////// order id
-                foodOrder.child(FirebaseAuth.getInstance().getUid()).setValue(order);
+                foodOrder.child(FirebaseAuth.getInstance().getUid()).child(UUID.randomUUID().toString()).setValue(order);
+                Toast.makeText(getApplicationContext(), "Added to Cart.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
