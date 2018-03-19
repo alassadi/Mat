@@ -2,6 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_View="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,12 +37,11 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="150dp"
         android:padding="5dp"
-        android:text="@string/restaurantName"
-        android:textSize="15dp"
-        tools:text="restaurant name" />
+        android:text="@string/restName"
+        android:textSize="15dp" />
 
     <TextView
-        android:id="@+id/textView_time"
+        android:id="@+id/textView_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

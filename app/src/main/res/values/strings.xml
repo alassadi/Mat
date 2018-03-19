@@ -9,14 +9,48 @@
     <string name="auth_failed">Authentication failed</string>
     <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
     <string name="signed_out">Signed Out</string>
+    <string name="saveInput">Save</string>
+
+
+    <!-- Restaurant part-->
+    <string name="profPicture">Profile Picture</string>
+    <string name="restaurantName">Restaurant Name</string>
+    <string name="restaurantDescription">Restaurant Description</string>
+    <string name="restaurantAddress">Address</string>
+
+    <!-- Address placeholder values and hints -->
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="region">Region</string>
+    <string name="postCode">Post Code</string>
+
+    <!-- Delivery part-->
     <string name="customerName" />
-    <string name="restaurantName" />
+    <string name="restName" />
     <string name="timeFood" />
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Delivery fragment -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="customername" />
     <string name="customerAddress" />
-    <string name="acceptDelivery">Accept Delivery</string>
+    <string name="acceptDelivery">Set Delivered</string>
+    <string name="deliveryitemid" />
+    <string name="deliveryname">DELIVERY INFORMATIONS</string>
+    <string name="deliveryaddress" />
+    <string name="deliverysetid" />
+    <string name="deliverysetname" />
+    <string name="deliverysetaddress" />
+    <string name="deliveryrestname" />
+    <string name="deliveryrestaname" />
+    <string name="deliverysetrestname" />
+    <string name="setdeliverystatus" />
+    <string name="mydeliverycustomername" />
+    <string name="mydeliveryrestaurantname" />
+    <string name="myseliverystatus" />
+    <string name="dialogtitle">Order Details</string>
+    <string name="dialogcustomername" />
+    <string name="actionfavorite" />
+    <string name="actionsettings" />
+    <string name="title_activity_child">title_activty_child</string>
 
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.company.mat.DeliveryManActivity">
+    tools:context="com.company.mat.MyDeliveryActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/deliver_man_toolbar"
@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/delivery_man_recycler_view"
+        android:id="@+id/mydelivery_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
@@ -24,13 +24,12 @@
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/myfloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@mipmap/my_floating_button_round" />
-
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
 </android.support.design.widget.CoordinatorLayout>
