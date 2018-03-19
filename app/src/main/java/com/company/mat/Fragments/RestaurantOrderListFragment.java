@@ -115,6 +115,7 @@ public class RestaurantOrderListFragment extends Fragment {
                     if (order != null) {
                         orders.put(order.getId(), order);
                         restaurant.setOrders(orders);
+                        updateUI();
                     }
                 }
             }
