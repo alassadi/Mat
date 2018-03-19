@@ -31,6 +31,7 @@ public class RestaurantList extends AppCompatActivity {
         toolbar.setTitle("Restaurants");
         setSupportActionBar(toolbar);
         */
+
         // firebase
         database = FirebaseDatabase.getInstance();
         restaurantList = database.getReference("restaurants");

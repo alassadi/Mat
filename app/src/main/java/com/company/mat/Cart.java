@@ -7,11 +7,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.company.mat.Model.FoodOrder;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -83,6 +86,16 @@ public class Cart extends AppCompatActivity {
         final EditText commentEditText = new EditText(Cart.this);
         commentEditText.setHint("Comment");
         linearLayout.addView(commentEditText);
+
+        final EditText nameEditText = new EditText(Cart.this);
+        nameEditText.setHint("Name");
+        linearLayout.addView(nameEditText);
+
+        final EditText phoneEditText = new EditText(Cart.this);
+        phoneEditText.setHint("PhoneNumber");
+        phoneEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        linearLayout.addView(phoneEditText);
+
         alerDialog.setView(linearLayout);
         alerDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
 
@@ -92,23 +105,26 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
                 DatabaseReference cartRef = rootRef.child("FoodOrders");
-                final RestaurantOrderListItem restaurantOrderListItem;
+
                 ValueEventListener eventListener = new ValueEventListener() {
                     Locale locale = new Locale("en", "SE");
                     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
-                    HashMap<String, Object> hashMap = new HashMap<>();
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
+                        String restid;
                         for (DataSnapshot dSnapshot : dataSnapshot.child(FirebaseAuth.getInstance().getUid()).getChildren()) {
-                            hashMap.put(dataSnapshot.child("itemName").getValue(String.class), dataSnapshot.child("quantity").getValue(String.class));
-                            // restaurantOrderListItem = new RestaurantOrderListItem(String.valueOf(commentEditText.getText()),String.valueOf(addressEditText.getText()), hashMap);
-                            //foodOrderList;
-
+                            // String.valueOf(commentEditText.getText()),String.valueOf(addressEditText.getText()), hashMap
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put(String.valueOf(dSnapshot.child("itemName").getValue()), String.valueOf(dSnapshot.child("quantity").getValue()));
+                            int sum = Integer.parseInt(String.valueOf(dSnapshot.child("price").getValue())) * Integer.parseInt(String.valueOf(dSnapshot.child("quantity").getValue()));
+                            RestaurantOrderListItem restaurantOrderListItem = new RestaurantOrderListItem(String.valueOf(commentEditText.getText()), String.valueOf(addressEditText.getText()), hashMap, String.valueOf(phoneEditText.getText()), String.valueOf(nameEditText.getText()), numberFormat.format(sum) + "");
+                            restaurantOrderListItem.setTime(Calendar.getInstance().getTime().toString());
+                            restid = String.valueOf(dSnapshot.child("restaurantId").getValue());
+                            rootRef.child("restaurants").child(restid).child("orders").child(restaurantOrderListItem.getId()).setValue(restaurantOrderListItem);
                         }
                     }
 
@@ -118,8 +134,8 @@ public class Cart extends AppCompatActivity {
                 };
                 cartRef.addListenerForSingleValueEvent(eventListener);
 
-                //RestaurantOrderListItem orderListItem = new RestaurantOrderListItem(commentEditText.getText().toString(),addressEditText.getText().toString(),);
-
+                Toast.makeText(getApplicationContext(), "Your Order is Sent", Toast.LENGTH_LONG).show();
+                reference.removeValue();
 
                 finish();
             }
@@ -131,11 +147,6 @@ public class Cart extends AppCompatActivity {
             }
         });
 
-
-        /*
-
-
-         */
         alerDialog.show();
 
     }

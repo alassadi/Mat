@@ -6,11 +6,12 @@ import java.util.UUID;
 
 /**
  * Created by ivana on 3/18/2018.
+ *
  */
 
 public class RestaurantOrderListItem implements Serializable {
 
-    private String id, comments, time;
+    private String id, comments, time, price, pNumber, name;
     private String address;
     // items then amount
     private HashMap<String, String> items;
@@ -18,10 +19,13 @@ public class RestaurantOrderListItem implements Serializable {
     public RestaurantOrderListItem() {
     }
 
-    public RestaurantOrderListItem(String comments, String address, HashMap<String, String> items) {
+    public RestaurantOrderListItem(String comments, String address, HashMap<String, String> items, String pNumber, String name, String price) {
         this.comments = comments;
         this.address = address;
         this.items = items;
+        this.pNumber = pNumber;
+        this.name = name;
+        this.price = price;
         time = "";
         id = UUID.randomUUID().toString();
     }
@@ -66,12 +70,37 @@ public class RestaurantOrderListItem implements Serializable {
         this.time = time;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getpNumber() {
+        return pNumber;
+    }
+
+    public void setpNumber(String pNumber) {
+        this.pNumber = pNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("comments", comments);
         hashMap.put("time", time);
         hashMap.put("address", address);
         hashMap.put("items", items);
+        hashMap.put("price", price);
         return hashMap;
     }
 }
