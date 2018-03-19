@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class RestaurantOrderItemDetails extends AppCompatActivity {
 
     private Button save, deliver;
-    private TextView tvID, tvDesc, tvitems, time, price;
+    private TextView tvID, tvDesc, phone, tvitems, time, price;
     private RestaurantOrderListItem item;
 
     @Override
@@ -37,12 +37,18 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         tvitems = findViewById(R.id.tvItems);
         time = findViewById(R.id.orderTimePick);
         price = findViewById(R.id.tvOrderPrice);
+        phone = findViewById(R.id.orderPhone);
+
 
         if (getIntent().getSerializableExtra("item") != null) {
             item = (RestaurantOrderListItem) getIntent().getSerializableExtra("item");
             tvID.append("\n" + item.getId());
             tvDesc.append("\n" + item.getComments());
             price.append("\n" + item.getPrice());
+            phone.append("\n" + item.getpNumber());
+            if (item.getTime() != null) {
+                time.setText(item.getTime());
+            }
             StringBuilder itemString = new StringBuilder();
             for (String s : item.getItems().keySet()) {
                 itemString.append(item.getItems().get(s)).append(" ").append(s).append("\n");
@@ -95,7 +101,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         });
 
         save.setOnClickListener(getSaveButtonListener());
-
+        deliver.setOnClickListener(getDeliveryButtonListener());
 
     }
 
@@ -112,5 +118,19 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         };
     }
 
-    //TODO: add send item for delivery.
+    private View.OnClickListener getDeliveryButtonListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, String> delivery = new HashMap<>();
+                delivery.put("customerAddress", item.getAddress());
+                delivery.put("customerName", item.getName());
+                delivery.put("deliveryStatus", "Free");
+                delivery.put("orderId", item.getId());
+                delivery.put("phoneNumber", item.getpNumber());
+                FirebaseDatabase.getInstance().getReference().child("DeliveryList").child(item.getId()).setValue(delivery);
+            }
+        };
+    }
+
 }
