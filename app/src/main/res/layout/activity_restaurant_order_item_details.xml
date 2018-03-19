@@ -74,6 +74,20 @@
         app:layout_constraintTop_toBottomOf="@+id/tvItems" />
 
     <TextView
+        android:id="@+id/tvOrderPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/price"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderDescription" />
+
+    <TextView
         android:id="@+id/orderTimePick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,6 +101,6 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOrderDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderPrice" />
 
 </android.support.constraint.ConstraintLayout>

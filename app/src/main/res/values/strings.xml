@@ -46,4 +46,5 @@
     <string name="items">Items</string>
     <string name="done">Set Done</string>
     <string name="time">Time</string>
+    <string name="timePlaceholder">%s:%s</string>
 </resources>
