@@ -165,7 +165,9 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_profile) {
             Log.e("isUserRestaurant", String.valueOf(isUserRestaurant));
-            if (isUserRestaurant) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, LoginActivity.class));
+            } else if (isUserRestaurant) {
                 startActivity(new Intent(this, RestaurantAccount.class));
             } else {
                 startActivity(new Intent(this, Home.class));
