@@ -21,6 +21,7 @@ public class FoodList extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference food;
     String categoryId = "";
+    String restaurantId = "";
     FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
 
     @Override
@@ -41,8 +42,9 @@ public class FoodList extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         // get intent info
         if (intent != null) {
-
             categoryId = extras.getString("CategoryId");
+            restaurantId = extras.getString("RestaurantId");
+
         }
         if (!categoryId.isEmpty() && categoryId != null) {
             loadFoodList(categoryId);

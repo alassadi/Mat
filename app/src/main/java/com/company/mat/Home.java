@@ -88,7 +88,7 @@ public class Home extends AppCompatActivity
     }
 
     private void loadMenu(String restaurantId) {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
@@ -102,7 +102,7 @@ public class Home extends AppCompatActivity
                         // send category id to the food food list activity
                         Intent food_intent = new Intent(Home.this, FoodList.class);
                         extras.putString("RestaurantId", getIntent().getStringExtra("RestaurantId"));
-                        extras.putString("CategoryId", name);
+                        extras.putString("CategoryId", adapter.getRef(position).getKey());
                         food_intent.putExtras(extras);
 
                         startActivity(food_intent);
