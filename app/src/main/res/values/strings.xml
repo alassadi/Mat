@@ -40,6 +40,8 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="food_name">Food Name</string>
+    <string name="total">Total:</string>
+    <string name="order">Order</string>
 
     <!-- Restaurant Order Details -->
     <string name="id">ID</string>

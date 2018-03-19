@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.company.mat.Model.Food;
+import com.company.mat.Model.FoodOrder;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,8 @@ public class FoodDetail extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference food;
+    DatabaseReference foodOrder;
+    FoodOrder order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class FoodDetail extends AppCompatActivity {
         // firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
         food = firebaseDatabase.getReference("Food");
+        foodOrder = firebaseDatabase.getReference("FoodOrders");
 
         elegantNumberButton = (ElegantNumberButton) findViewById(R.id.number_button);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.buttonCart);
@@ -46,6 +51,15 @@ public class FoodDetail extends AppCompatActivity {
         foodImage = (ImageView) findViewById(R.id.img_food);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsingToolbarStyle);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                order = new FoodOrder(getIntent().getStringExtra("FoodID").toString(), foodName.getText().toString(), elegantNumberButton.getNumber().toString(), foodPrice.getText().toString());
+                ////////// order id
+                foodOrder.child(FirebaseAuth.getInstance().getUid()).setValue(order);
+            }
+        });
 
         if (getIntent() != null) {
             foodId = getIntent().getStringExtra("FoodID");
