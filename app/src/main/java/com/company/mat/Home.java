@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
@@ -30,7 +29,6 @@ public class Home extends AppCompatActivity
 
     FirebaseDatabase database;
     DatabaseReference category;
-    TextView fullName;
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
@@ -96,15 +94,17 @@ public class Home extends AppCompatActivity
                 viewHolder.textMenuName.setText(model.getName());
                 Picasso.get().load(model.getImage()).into(viewHolder.imageView);
                 final Category clickItem = model;
-
+                final Bundle extras = new Bundle();
                 final String name = model.getName();
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         // send category id to the food food list activity
                         Intent food_intent = new Intent(Home.this, FoodList.class);
-                        food_intent.putExtra("CategoryId", name);
-                        //food_intent.putExtra("CategoryId", adapter.getRef(position).getKey());
+                        extras.putString("RestaurantId", getIntent().getStringExtra("RestaurantId"));
+                        extras.putString("CategoryId", name);
+                        food_intent.putExtras(extras);
+
                         startActivity(food_intent);
                     }
                 });

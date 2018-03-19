@@ -37,10 +37,12 @@ public class FoodList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
         // get intent info
-        if (getIntent() != null) {
-            categoryId = getIntent().getStringExtra("CategoryId");
+        if (intent != null) {
+
+            categoryId = extras.getString("CategoryId");
         }
         if (!categoryId.isEmpty() && categoryId != null) {
             loadFoodList(categoryId);
@@ -57,7 +59,10 @@ public class FoodList extends AppCompatActivity {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         Intent detail = new Intent(FoodList.this, FoodDetail.class);
-                        detail.putExtra("FoodID", adapter.getRef(position).getKey());
+                        Bundle extras = new Bundle();
+                        extras.putString("FoodID", adapter.getRef(position).getKey());
+                        extras.putString("RestaurantId", getIntent().getStringExtra("RestaurantId"));
+                        detail.putExtras(extras);
                         startActivity(detail);
                     }
                 });

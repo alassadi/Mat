@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginLeft="10dp"
-                android:text="Food 01"
+                android:text=""
                 android:textStyle="bold" />
 
             <TextView
@@ -35,15 +35,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginLeft="10dp"
-                android:text="$$"
+                android:text=""
                 android:textStyle="italic" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/cart_item_count"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginRight="16dp" />
 
