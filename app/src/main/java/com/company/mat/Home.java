@@ -168,7 +168,7 @@ public class Home extends AppCompatActivity
             if (isUserRestaurant) {
                 startActivity(new Intent(this, RestaurantAccount.class));
             } else {
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, Home.class));
             }
         }
 
