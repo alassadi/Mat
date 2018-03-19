@@ -1,11 +1,13 @@
 package com.company.mat.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by ivana on 3/10/2018.
+ *
  */
 
 public class Restaurant implements Serializable {
@@ -14,10 +16,12 @@ public class Restaurant implements Serializable {
     private String imageURL;
     private Address address;
     private RestaurantMenu menu;
+    private HashMap<String, RestaurantOrderListItem> orders;
 
 
 
     public Restaurant() {
+        orders = new HashMap<>();
         name = "";
         description = "";
     }
@@ -27,6 +31,7 @@ public class Restaurant implements Serializable {
         this.address = address;
         this.description = description;
         imageURL = " ";
+        orders = new HashMap<>();
     }
 
     public String getName() {
@@ -35,6 +40,23 @@ public class Restaurant implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addOrder(RestaurantOrderListItem order) {
+        if (orders == null) {
+            orders = new HashMap<>();
+        }
+        orders.put(order.getId(), order);
+    }
+
+    public HashMap<String, RestaurantOrderListItem> getOrders() {
+        return orders;
+    }
+
+    public void removeOrder(RestaurantOrderListItem order) {
+        if (orders.containsValue(order)) {
+            orders.remove(order.getId());
+        }
     }
 
     public String getDescription() {
@@ -69,6 +91,10 @@ public class Restaurant implements Serializable {
         this.imageURL = imageURL;
     }
 
+    public void setOrders(HashMap<String, RestaurantOrderListItem> items) {
+        orders = items;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", name);
@@ -76,7 +102,14 @@ public class Restaurant implements Serializable {
         map.put("address", address);
         map.put("image", imageURL);
         map.put("menu", menu.getMenu());
+        map.put("orders", orders);
         return map;
+    }
+
+    public ArrayList<RestaurantOrderListItem> orderToArrayList() {
+        ArrayList<RestaurantOrderListItem> items = new ArrayList<>();
+        items.addAll(orders.values());
+        return items;
     }
 
 }
