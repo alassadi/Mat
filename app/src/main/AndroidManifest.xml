@@ -26,7 +26,8 @@
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+        </activity>
         <activity android:name=".RestaurantAccount" />
         <activity android:name=".EditRestaurantProfile" />
         <activity android:name=".RestaurantEditAddress" />

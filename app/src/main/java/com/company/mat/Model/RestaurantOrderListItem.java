@@ -6,11 +6,12 @@ import java.util.UUID;
 
 /**
  * Created by ivana on 3/18/2018.
+ *
  */
 
 public class RestaurantOrderListItem implements Serializable {
 
-    private String id, comments, time;
+    private String id, comments, time, price;
     private String address;
     // items then amount
     private HashMap<String, String> items;
@@ -66,12 +67,21 @@ public class RestaurantOrderListItem implements Serializable {
         this.time = time;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("comments", comments);
         hashMap.put("time", time);
         hashMap.put("address", address);
         hashMap.put("items", items);
+        hashMap.put("price", price);
         return hashMap;
     }
 }
