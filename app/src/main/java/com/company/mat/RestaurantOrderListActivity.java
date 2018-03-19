@@ -58,6 +58,7 @@ public class RestaurantOrderListActivity extends FragmentActivity implements Res
     public void onListFragmentInteraction(RestaurantOrderListItem item) {
         Intent intent = new Intent(this, RestaurantOrderItemDetails.class);
         intent.putExtra("item", item);
+        intent.putExtra("restaurant", restaurant.getName());
 
 
         startActivity(intent);
