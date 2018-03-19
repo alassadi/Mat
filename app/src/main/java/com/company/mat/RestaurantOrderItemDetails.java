@@ -24,6 +24,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
     private Button save, deliver;
     private TextView tvID, tvDesc, phone, tvitems, time, price;
     private RestaurantOrderListItem item;
+    private String restaurantName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
             tvDesc.append("\n" + item.getComments());
             price.append("\n" + item.getPrice());
             phone.append("\n" + item.getpNumber());
-            if (item.getTime() != null) {
+            if (item.getTime() != null && !item.getTime().isEmpty()) {
                 time.setText(item.getTime());
             }
             StringBuilder itemString = new StringBuilder();
@@ -54,6 +55,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 itemString.append(item.getItems().get(s)).append(" ").append(s).append("\n");
             }
             tvitems.setText(itemString.toString());
+            restaurantName = getIntent().getStringExtra("restaurant");
         } else {
             Snackbar.make(save, "Empty", Snackbar.LENGTH_LONG).show();
         }
@@ -128,7 +130,8 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 delivery.put("deliveryStatus", "Free");
                 delivery.put("orderId", item.getId());
                 delivery.put("phoneNumber", item.getpNumber());
-                FirebaseDatabase.getInstance().getReference().child("DeliveryList").child(item.getId()).setValue(delivery);
+                delivery.put("restaurantName", restaurantName);
+                FirebaseDatabase.getInstance().getReference().child("orders").child(item.getId()).setValue(delivery);
             }
         };
     }
