@@ -34,7 +34,8 @@
         <activity android:name=".FoodDetail" />
         <activity android:name=".RestaurantEditMenu" />
         <activity android:name=".MenuItemEdit" />
-        <activity android:name=".RestaurantList"></activity>
+        <activity android:name=".RestaurantList" />
+        <activity android:name=".Cart"></activity>
     </application>
 
 </manifest>
