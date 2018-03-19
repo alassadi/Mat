@@ -54,8 +54,8 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
                     if (restaurant.getOrders() == null || restaurant.getOrders().isEmpty()) {
                         HashMap<String, String> items = new HashMap<>();
                         items.put("pizza", "5");
-                        restaurant.addOrder(new RestaurantOrderListItem("comments", "address", items, "number", "name", "100"));
-                        FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(restaurant);
+                        //restaurant.addOrder(new RestaurantOrderListItem("comments", "address", items, "number", "name", "100"));
+                        //FirebaseDatabase.getInstance().getReference().child("restaurants").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(restaurant);
                     }
                 } else {
                     restaurant = new Restaurant("Restaurant Name", new Address(), "Restaurant Description");

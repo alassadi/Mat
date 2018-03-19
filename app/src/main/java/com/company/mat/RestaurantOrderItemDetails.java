@@ -132,6 +132,12 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 delivery.put("phoneNumber", item.getpNumber());
                 delivery.put("restaurantName", restaurantName);
                 FirebaseDatabase.getInstance().getReference().child("orders").child(item.getId()).setValue(delivery);
+
+                // to delete dispatched order
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put(item.getId(), null);
+                FirebaseDatabase.getInstance().getReference().child("restaurants").child(uid).child("orders").updateChildren(hashMap);
             }
         };
     }
