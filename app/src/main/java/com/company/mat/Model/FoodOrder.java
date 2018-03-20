@@ -9,15 +9,17 @@ public class FoodOrder {
     private String itemName;
     private String quantity;
     private String price;
+    private String restaurantId;
 
     public FoodOrder() {
     }
 
-    public FoodOrder(String itemId, String itemName, String quantity, String price) {
+    public FoodOrder(String itemId, String itemName, String quantity, String price, String restaurantId) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.quantity = quantity;
         this.price = price;
+        this.restaurantId = restaurantId;
     }
 
     public String getItemId() {
@@ -50,5 +52,13 @@ public class FoodOrder {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }
