@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 import com.company.mat.Fragments.MyDeliveryAdapter;
 import com.company.mat.Model.CustonItemClickListener;
 import com.company.mat.Model.DeliveryItem;
@@ -54,11 +56,15 @@ public class MyDeliveryActivity extends AppCompatActivity {
 
 
         //Database connection
-        final FirebaseDatabase database= FirebaseDatabase.getInstance();
-        final DatabaseReference dref=database.getReference("DeliveryList");
+
+
         //get current user
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         currentUser=firebaseUser.getUid();
+
+        final FirebaseDatabase database= FirebaseDatabase.getInstance();
+        final DatabaseReference dref=database.getReference("DeliveryList").child(currentUser);
+
 
 
         dref.addChildEventListener(new ChildEventListener() {
@@ -162,8 +168,9 @@ public class MyDeliveryActivity extends AppCompatActivity {
                 Intent intent=new Intent();
                 intent.setClass(MyDeliveryActivity.this,DeliveryManActivity.class);
 
-                //pass order data to DeliveryManActivty
                 startActivity(intent);
+                //Toast.makeText(MyDeliveryActivity.this, currentUser, Toast.LENGTH_SHORT).show();
+                Log.w("UserId",currentUser);
             }
         });
     }

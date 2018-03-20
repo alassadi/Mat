@@ -160,15 +160,18 @@ public class DeliveryManActivity extends AppCompatActivity{
 
    public void onClickAccept(){
         //Toast.makeText(getApplicationContext(),"On click Accept",Toast.LENGTH_LONG).show();
+
+       //current user is childkey for deliveryItem in order to display just users oreder in my order
+       FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+       if (firebaseUser != null) {
+           userId = firebaseUser.getUid();
+       }
+
         final FirebaseDatabase database= FirebaseDatabase.getInstance();
-        final DatabaseReference dref=database.getReference("DeliveryList");
+        final DatabaseReference dref=database.getReference("DeliveryList").child(userId);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-            userId = firebaseUser.getUid();
-        }
 
-        DeliveryItem item=new DeliveryItem(cusAddress,cusName,delStatus,phoneNumber,resName,userId);
+        DeliveryItem item=new DeliveryItem(cusAddress,cusName,delStatus,phoneNumber,resName);
         dref.child(key).setValue(item);
         removeFromList(key);
 
