@@ -51,6 +51,7 @@ public class MenuItemEdit extends AppCompatActivity {
         if (getIntent().getSerializableExtra("item") != null) {
             menuItem = (Food) getIntent().getSerializableExtra("item");
             item = menuItem.getName();
+            setImage(menuItem.getImage());
         } else {
             item = "";
         }
@@ -101,9 +102,9 @@ public class MenuItemEdit extends AppCompatActivity {
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        dbref = FirebaseDatabase.getInstance().getReference().child("restaurants").child(
-                                FirebaseAuth.getInstance().getCurrentUser().getUid()).child("menu").child(parent).child("foods");
-
+                        dbref = FirebaseDatabase.getInstance().getReference().child("menu").child(
+                                FirebaseAuth.getInstance().getCurrentUser().getUid()).child(parent).child("foods");
+                        dbref.child(String.valueOf(itemNo)).removeValue();
                         onBackPressed();
                     }
                 });
