@@ -52,5 +52,7 @@
     <string name="actionfavorite" />
     <string name="actionsettings" />
     <string name="title_activity_child">title_activty_child</string>
+    <string name="derliveryImg" />
+    <string name="mydeliveryimg" />
 
 </resources>
