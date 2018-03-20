@@ -20,5 +20,10 @@
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:iconTint="@color/white"
             android:title="Sign Out" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_send"
+            android:iconTint="@color/white"
+            android:title="Profile" />
     </group>
 </menu>

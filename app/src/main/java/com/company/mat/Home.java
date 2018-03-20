@@ -36,6 +36,7 @@ public class Home extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     String restaurantId = "";
+    NavigationView navigationView;
 
     private boolean isUserRestaurant;
 
@@ -66,7 +67,7 @@ public class Home extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // set a name for the user // not working yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -196,6 +197,8 @@ public class Home extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() == null || dataSnapshot.getChildren() == null) {
                         isUserRestaurant = false;
+                        navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+
                     } else {
                         //Key exists
                         isUserRestaurant = true;
@@ -205,6 +208,7 @@ public class Home extends AppCompatActivity
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     isUserRestaurant = false;
+                    navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
                 }
             });
         }
