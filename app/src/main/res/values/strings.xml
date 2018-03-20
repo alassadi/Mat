@@ -51,4 +51,6 @@
     <string name="timePlaceholder">%s:%s</string>
     <string name="phone">Phone Number</string>
     <string name="image">Image</string>
+    <string name="_0_kr">0 kr</string>
+
 </resources>

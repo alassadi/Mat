@@ -43,7 +43,7 @@
                     android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$$"
+                    android:text="@string/_0_kr"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 

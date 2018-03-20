@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
 import com.company.mat.ViewHolder.MenuViewHolder;
@@ -37,6 +36,7 @@ public class Home extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     String restaurantId = "";
+    NavigationView navigationView;
 
     private boolean isUserRestaurant;
 
@@ -67,7 +67,7 @@ public class Home extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // set a name for the user // not working yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -160,12 +160,16 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_menu) {
 
         } else if (id == R.id.nav_cart) {
+            Intent cartIntent = new Intent(Home.this, Cart.class);
+            startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
 
+
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Home.class));
+            Intent intent = new Intent(Home.this, LoginActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_profile) {
             Log.e("isUserRestaurant", String.valueOf(isUserRestaurant));
@@ -193,6 +197,8 @@ public class Home extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() == null || dataSnapshot.getChildren() == null) {
                         isUserRestaurant = false;
+                        navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+
                     } else {
                         //Key exists
                         isUserRestaurant = true;
@@ -202,6 +208,7 @@ public class Home extends AppCompatActivity
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     isUserRestaurant = false;
+                    navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
                 }
             });
         }
