@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         /* this line is to prevent the background image from cropping
            or resizing when the keyboard appears.
         */
-        getWindow().setBackgroundDrawableResource(R.drawable.background);
+        getWindow().setBackgroundDrawableResource(R.drawable.loginimage);
     }
 
     @Override
@@ -121,7 +121,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         hideProgressDialog();
                     }
                 });
-        // [END create_user_with_email]
     }
 
     @Override

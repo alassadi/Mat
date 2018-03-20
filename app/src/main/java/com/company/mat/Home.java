@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
 import com.company.mat.ViewHolder.MenuViewHolder;
@@ -160,12 +159,16 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_menu) {
 
         } else if (id == R.id.nav_cart) {
+            Intent cartIntent = new Intent(Home.this, Cart.class);
+            startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
 
+
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Home.class));
+            Intent intent = new Intent(Home.this, LoginActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_profile) {
             Log.e("isUserRestaurant", String.valueOf(isUserRestaurant));
