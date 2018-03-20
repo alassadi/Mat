@@ -145,10 +145,16 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_menu) {
 
         } else if (id == R.id.nav_cart) {
+            Intent cartIntent = new Intent(Home.this, Cart.class);
+            startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
 
+
         } else if (id == R.id.nav_log_out) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(Home.this, LoginActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_profile) {
             if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("M0fSGuSgK5bWhY4iqoDgsl5Wv8j1")) {
