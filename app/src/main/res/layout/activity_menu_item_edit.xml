@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.company.mat.MenuItemEdit">
 
+    <ImageView
+        android:id="@+id/restaurantMenuFoodItem"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/profPicture"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
     <EditText
         android:id="@+id/editTextMenuName"
         android:layout_width="0dp"
@@ -19,7 +27,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/restaurantMenuFoodItem" />
 
     <EditText
         android:id="@+id/editTextMenuDescription"

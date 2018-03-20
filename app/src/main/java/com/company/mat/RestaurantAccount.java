@@ -99,7 +99,6 @@ public class RestaurantAccount extends FragmentActivity implements ItemFragment.
 
         } else if (((String) item.getEntry(0)).equalsIgnoreCase("Edit menu")) {
             Intent intent = new Intent(this, RestaurantEditMenu.class);
-            intent.putExtra("menu", restaurant.getMenu());
             startActivity(intent);
         }
     }

@@ -50,7 +50,7 @@ public class Home extends AppCompatActivity
 
         // firebase
         database = FirebaseDatabase.getInstance();
-        category = database.getReference("Category");
+        category = database.getReference("menu");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +99,15 @@ public class Home extends AppCompatActivity
     }
 
     private void loadMenu(String restaurantId) {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.child(restaurantId)) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
-                Picasso.get().load(model.getImage()).into(viewHolder.imageView);
+                try {
+                    Picasso.get().load(model.getImage()).into(viewHolder.imageView);
+                } catch (Exception e) {
+                    Log.e("Picasso", e.getMessage());
+                }
                 final Category clickItem = model;
                 final Bundle extras = new Bundle();
                 final String name = model.getName();
@@ -165,7 +169,9 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_profile) {
             Log.e("isUserRestaurant", String.valueOf(isUserRestaurant));
-            if (isUserRestaurant) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, LoginActivity.class));
+            } else if (isUserRestaurant) {
                 startActivity(new Intent(this, RestaurantAccount.class));
             } else {
                 startActivity(new Intent(this, Home.class));
