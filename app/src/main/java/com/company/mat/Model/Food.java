@@ -1,15 +1,17 @@
 package com.company.mat.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Abood on 3/15/2018.
  */
 
-public class Food {
+public class Food implements Serializable {
     private String Name;
     private String Image;
     private String Description;
     private String Price;
-    private String MenuId;
+//    private String MenuId;
 
     public Food() {
     }
@@ -19,7 +21,7 @@ public class Food {
         Image = image;
         Description = description;
         Price = price;
-        MenuId = menuId;
+//        MenuId = menuId;
     }
 
     public String getName() {
@@ -54,11 +56,11 @@ public class Food {
         Price = price;
     }
 
-    public String getMenuId() {
-        return MenuId;
-    }
-
-    public void setMenuId(String menuId) {
-        MenuId = menuId;
-    }
+//    public String getMenuId() {
+//        return MenuId;
+//    }
+//
+//    public void setMenuId(String menuId) {
+//        MenuId = menuId;
+//    }
 }

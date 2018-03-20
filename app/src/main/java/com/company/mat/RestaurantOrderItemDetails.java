@@ -22,8 +22,9 @@ import java.util.HashMap;
 public class RestaurantOrderItemDetails extends AppCompatActivity {
 
     private Button save, deliver;
-    private TextView tvID, tvDesc, tvitems, time;
+    private TextView tvID, tvDesc, phone, tvitems, time, price;
     private RestaurantOrderListItem item;
+    private String restaurantName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +37,25 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         tvID = findViewById(R.id.tvID);
         tvitems = findViewById(R.id.tvItems);
         time = findViewById(R.id.orderTimePick);
+        price = findViewById(R.id.tvOrderPrice);
+        phone = findViewById(R.id.orderPhone);
+
 
         if (getIntent().getSerializableExtra("item") != null) {
             item = (RestaurantOrderListItem) getIntent().getSerializableExtra("item");
-            tvID.setText(item.getId());
-            tvDesc.setText(item.getComments());
-            String itemString = "";
-            for (String s : item.getItems().keySet()) {
-                itemString = itemString + item.getItems().get(s) + " " + s + "\n";
+            tvID.append("\n" + item.getId());
+            tvDesc.append("\n" + item.getComments());
+            price.append("\n" + item.getPrice());
+            phone.append("\n" + item.getpNumber());
+            if (item.getTime() != null && !item.getTime().isEmpty()) {
+                time.setText(item.getTime());
             }
-            tvitems.setText(itemString);
+            StringBuilder itemString = new StringBuilder();
+            for (String s : item.getItems().keySet()) {
+                itemString.append(item.getItems().get(s)).append(" ").append(s).append("\n");
+            }
+            tvitems.setText(itemString.toString());
+            restaurantName = getIntent().getStringExtra("restaurant");
         } else {
             Snackbar.make(save, "Empty", Snackbar.LENGTH_LONG).show();
         }
@@ -63,7 +73,15 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                     @Override
                     public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                        time.setText(i + ":" + i1);
+                        String hour = String.valueOf(i);
+                        String minute = String.valueOf(i1);
+                        if (hour.length() == 1) {
+                            hour = "0" + hour;
+                        }
+                        if (minute.length() == 1) {
+                            minute = "0" + minute;
+                        }
+                        time.setText(String.format(getString(R.string.timePlaceholder), hour, minute));
                     }
                 });
 
@@ -77,7 +95,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        item.setTime(time.getText().toString());
                     }
                 });
                 alert.show();
@@ -85,7 +103,7 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         });
 
         save.setOnClickListener(getSaveButtonListener());
-
+        deliver.setOnClickListener(getDeliveryButtonListener());
 
     }
 
@@ -97,7 +115,31 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put(item.getId(), item);
                 FirebaseDatabase.getInstance().getReference().child("restaurants").child(uid).child("orders").updateChildren(hashMap);
+                onBackPressed();
             }
         };
     }
+
+    private View.OnClickListener getDeliveryButtonListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, String> delivery = new HashMap<>();
+                delivery.put("customerAddress", item.getAddress());
+                delivery.put("customerName", item.getName());
+                delivery.put("deliveryStatus", "Free");
+                delivery.put("orderId", item.getId());
+                delivery.put("phoneNumber", item.getpNumber());
+                delivery.put("restaurantName", restaurantName);
+                FirebaseDatabase.getInstance().getReference().child("orders").child(item.getId()).setValue(delivery);
+
+                // to delete dispatched order
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put(item.getId(), null);
+                FirebaseDatabase.getInstance().getReference().child("restaurants").child(uid).child("orders").updateChildren(hashMap);
+            }
+        };
+    }
+
 }

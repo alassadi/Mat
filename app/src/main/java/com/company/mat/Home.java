@@ -11,17 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.company.mat.Interface.ItemClickListener;
 import com.company.mat.Model.Category;
 import com.company.mat.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class Home extends AppCompatActivity
@@ -34,6 +37,8 @@ public class Home extends AppCompatActivity
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     String restaurantId = "";
 
+    private boolean isUserRestaurant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,7 @@ public class Home extends AppCompatActivity
 
         // firebase
         database = FirebaseDatabase.getInstance();
-        category = database.getReference("Category");
+        category = database.getReference("menu");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,15 +89,24 @@ public class Home extends AppCompatActivity
         if (restaurantId != null) {
             loadMenu(restaurantId);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isUserRestaurant();
     }
 
     private void loadMenu(String restaurantId) {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.orderByChild("RestaurantId").equalTo(restaurantId)) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category.child(restaurantId)) {
             @Override
             protected void populateViewHolder(MenuViewHolder viewHolder, final Category model, int position) {
                 viewHolder.textMenuName.setText(model.getName());
-                Picasso.get().load(model.getImage()).into(viewHolder.imageView);
+                try {
+                    Picasso.get().load(model.getImage()).into(viewHolder.imageView);
+                } catch (Exception e) {
+                    Log.e("Picasso", e.getMessage());
+                }
                 final Category clickItem = model;
                 final Bundle extras = new Bundle();
                 final String name = model.getName();
@@ -157,13 +171,42 @@ public class Home extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_profile) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals("M0fSGuSgK5bWhY4iqoDgsl5Wv8j1")) {
+            Log.e("isUserRestaurant", String.valueOf(isUserRestaurant));
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, LoginActivity.class));
+            } else if (isUserRestaurant) {
                 startActivity(new Intent(this, RestaurantAccount.class));
+            } else {
+                startActivity(new Intent(this, Home.class));
             }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void isUserRestaurant() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            isUserRestaurant = false;
+        } else {
+            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseDatabase.getInstance().getReference().child("restaurants").orderByKey().equalTo(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() == null || dataSnapshot.getChildren() == null) {
+                        isUserRestaurant = false;
+                    } else {
+                        //Key exists
+                        isUserRestaurant = true;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    isUserRestaurant = false;
+                }
+            });
+        }
     }
 }

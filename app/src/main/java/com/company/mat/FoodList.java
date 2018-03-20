@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.company.mat.Interface.ItemClickListener;
@@ -31,7 +32,6 @@ public class FoodList extends AppCompatActivity {
 
         // firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
-        food = firebaseDatabase.getReference("Food");
 
         // Load the menu
         recyclerView = (RecyclerView) findViewById(R.id.recycler_food);
@@ -41,29 +41,32 @@ public class FoodList extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         // get intent info
-        if (intent != null) {
+        if (intent.getExtras() != null) {
             categoryId = extras.getString("CategoryId");
             restaurantId = extras.getString("RestaurantId");
-
+            food = firebaseDatabase.getReference("menu").child(restaurantId).child(categoryId);
         }
         if (!categoryId.isEmpty() && categoryId != null) {
             loadFoodList(categoryId);
         }
     }
 
-    private void loadFoodList(String categoryId) {
-        adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class, R.layout.food_item, FoodViewHolder.class, food.orderByChild("MenuId").equalTo(categoryId)) {
+    private void loadFoodList(String category) {
+        adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class, R.layout.food_item, FoodViewHolder.class, food.child("foods")) {
             @Override
-            protected void populateViewHolder(FoodViewHolder viewHolder, Food model, int position) {
+            protected void populateViewHolder(FoodViewHolder viewHolder, final Food model, int position) {
                 viewHolder.food_name.setText(model.getName());
-                Picasso.get().load(model.getImage()).into(viewHolder.food_image);
+                try {
+                    Picasso.get().load(model.getImage()).into(viewHolder.food_image);
+                } catch (Exception e) {
+                    Log.e("Picasso", e.getMessage());
+                }
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         Intent detail = new Intent(FoodList.this, FoodDetail.class);
                         Bundle extras = new Bundle();
-                        extras.putString("FoodID", adapter.getRef(position).getKey());
-                        extras.putString("RestaurantId", getIntent().getStringExtra("RestaurantId"));
+                        extras.putSerializable("Food", model);
                         detail.putExtras(extras);
                         startActivity(detail);
                     }

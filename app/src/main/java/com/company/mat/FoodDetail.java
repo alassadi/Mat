@@ -34,6 +34,7 @@ public class FoodDetail extends AppCompatActivity {
     DatabaseReference food;
     DatabaseReference foodOrder;
     FoodOrder order;
+    private Food foodObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class FoodDetail extends AppCompatActivity {
 
         // firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
-        food = firebaseDatabase.getReference("Food");
+        food = firebaseDatabase.getReference("menu");
         foodOrder = firebaseDatabase.getReference("FoodOrders");
         elegantNumberButton = (ElegantNumberButton) findViewById(R.id.number_button);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.buttonCart);
@@ -65,17 +66,29 @@ public class FoodDetail extends AppCompatActivity {
         });
 
         if (getIntent() != null) {
-            foodId = getIntent().getStringExtra("FoodID");
+            //foodId = getIntent().getStringExtra("FoodID");
+            foodObj = (Food) getIntent().getSerializableExtra("Food");
+            if (food != null) {
+                foodName.setText(foodObj.getName());
+                Picasso.get().load(foodObj.getImage()).into(foodImage);
+                collapsingToolbarLayout.setTitle(foodObj.getName());
+                foodPrice.setText(foodObj.getPrice());
+                foodDescription.setText(foodObj.getDescription());
+            } else {
+                Toast.makeText(getApplicationContext(), "Food is null", Toast.LENGTH_SHORT).show();
+            }
+
         }
         //and here to load the info from firebase
         if (!foodId.isEmpty()) {
-            getDetailFood(foodId);
+
+            //getDetailFood(foodId);
         }
 
     }
 
     private void getDetailFood(String foodId) {
-        food.child(foodId).addValueEventListener(new ValueEventListener() {
+        food.child("Food").child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Food food = dataSnapshot.getValue(Food.class);

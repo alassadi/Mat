@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,11 @@ public class RestaurantBannerFragment extends Fragment {
     }
 
     public void setImage(String url) {
-        Picasso.get().load(url).into(image);
+        try {
+            Picasso.get().load(url).into(image);
+        } catch (Exception e) {
+            Log.e("picasso", e.getMessage());
+        }
     }
 
 }

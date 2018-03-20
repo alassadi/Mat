@@ -15,7 +15,7 @@ public class Restaurant implements Serializable {
     private String description;
     private String imageURL;
     private Address address;
-    private RestaurantMenu menu;
+    //    private RestaurantMenu menu;
     private HashMap<String, RestaurantOrderListItem> orders;
 
 
@@ -79,13 +79,13 @@ public class Restaurant implements Serializable {
         return imageURL;
     }
 
-    public void setMenu(RestaurantMenu menu) {
-        this.menu = menu;
-    }
+//    public void setMenu(RestaurantMenu menu) {
+//        this.menu = menu;
+//    }
 
-    public RestaurantMenu getMenu() {
-        return menu;
-    }
+//    public RestaurantMenu getMenu() {
+//        return menu;
+//    }
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
@@ -101,7 +101,7 @@ public class Restaurant implements Serializable {
         map.put("description", description);
         map.put("address", address);
         map.put("image", imageURL);
-        map.put("menu", menu.getMenu());
+//        map.put("menu", menu.getMenu());
         map.put("orders", orders);
         return map;
     }
