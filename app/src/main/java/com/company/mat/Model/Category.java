@@ -1,6 +1,8 @@
 package com.company.mat.Model;
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Abood on 3/13/2018.
@@ -10,7 +12,7 @@ public class Category {
     private String Name;
     private String Image;
 
-    private ArrayList<String> RestaurantId;
+    private ArrayList<Food> foods;
 
     public Category() {
     }
@@ -18,7 +20,7 @@ public class Category {
     public Category(String name, String image) {
         this.Name = name;
         this.Image = image;
-        RestaurantId = new ArrayList<>();
+        foods = new ArrayList<>();
     }
 
     public String getName() {
@@ -37,18 +39,31 @@ public class Category {
         this.Image = image;
     }
 
-    public void addRestaurant(String restaurant) {
-        if (RestaurantId == null) {
-            RestaurantId = new ArrayList<>();
+    public void addFood(Food food) {
+        if (foods == null) {
+            foods = new ArrayList<>();
+
         }
-        RestaurantId.add(restaurant);
+        foods.add(food);
     }
 
-    public ArrayList<String> getRestaurants() {
-        return RestaurantId;
+    public ArrayList<Food> getFoods() {
+        return foods;
     }
 
-    public void setRestaurantId(ArrayList<String> list) {
-        RestaurantId = list;
+    public void setFoods(ArrayList<Food> list) {
+        foods = list;
+    }
+
+    public Food getFood(int index) {
+        return foods.get(index);
+    }
+
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", Name);
+        map.put("image", Image);
+        map.put("foods", foods);
+        return map;
     }
 }

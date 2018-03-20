@@ -4,6 +4,7 @@ package com.company.mat;
  * Created by ivana on 3/12/2018.
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,18 +19,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.company.mat.Model.RestaurantMenuItem;
+import com.company.mat.Model.Food;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<RestaurantMenuItem>> expandableListDetail;
+    private HashMap<String, ArrayList<Food>> expandableListDetail;
     private LongPress activity;
     private TextView lastSelected;
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<RestaurantMenuItem>> expandableListDetail) {
+                                       HashMap<String, ArrayList<Food>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -37,7 +38,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public RestaurantMenuItem getChild(int listPosition, int expandedListPosition) {
+    public Food getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
