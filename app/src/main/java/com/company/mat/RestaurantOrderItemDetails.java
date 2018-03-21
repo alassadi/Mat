@@ -124,12 +124,12 @@ public class RestaurantOrderItemDetails extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String, String> delivery = new HashMap<>();
+                HashMap<String, Object> delivery = new HashMap<>();
                 delivery.put("customerAddress", item.getAddress());
                 delivery.put("customerName", item.getName());
                 delivery.put("deliveryStatus", "Free");
-                delivery.put("orderId", item.getId());
-                delivery.put("phoneNumber", item.getpNumber());
+                //delivery.put("orderId", item.getId());
+                delivery.put("phoneNumber",item.getpNumber() );
                 delivery.put("restaurantName", restaurantName);
                 FirebaseDatabase.getInstance().getReference().child("orders").child(item.getId()).setValue(delivery);
 

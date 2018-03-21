@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,7 +107,7 @@ public class Cart extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference cartRef = rootRef.child("FoodOrders");
+                DatabaseReference cartRef = rootRef.child("FoodOrders").child(FirebaseAuth.getInstance().getUid());
 
                 ValueEventListener eventListener = new ValueEventListener() {
                     Locale locale = new Locale("en", "SE");
@@ -116,12 +117,15 @@ public class Cart extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String restid;
-                        for (DataSnapshot dSnapshot : dataSnapshot.child(FirebaseAuth.getInstance().getUid()).getChildren()) {
-                            // String.valueOf(commentEditText.getText()),String.valueOf(addressEditText.getText()), hashMap
+
+                        Log.e("ds",dataSnapshot.toString());
+
+                        for (DataSnapshot dSnapshot : dataSnapshot.getChildren()) {
+                            // String.valueOf(commentEditText.getText()),String.valueOf(adcartRefdressEditText.getText()), hashMap
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put(String.valueOf(dSnapshot.child("itemName").getValue()), String.valueOf(dSnapshot.child("quantity").getValue()));
                             int sum = Integer.parseInt(String.valueOf(dSnapshot.child("price").getValue())) * Integer.parseInt(String.valueOf(dSnapshot.child("quantity").getValue()));
-                            RestaurantOrderListItem restaurantOrderListItem = new RestaurantOrderListItem(String.valueOf(commentEditText.getText()), String.valueOf(addressEditText.getText()), hashMap, String.valueOf(phoneEditText.getText()), String.valueOf(nameEditText.getText()), numberFormat.format(sum) + "");
+                            RestaurantOrderListItem restaurantOrderListItem = new RestaurantOrderListItem(String.valueOf(commentEditText.getText()), String.valueOf(addressEditText.getText()), hashMap, Integer.parseInt(phoneEditText.getText().toString()), String.valueOf(nameEditText.getText()), numberFormat.format(sum) + "");
                             restaurantOrderListItem.setTime(Calendar.getInstance().getTime().toString());
                             restid = String.valueOf(dSnapshot.child("restaurantId").getValue());
                             rootRef.child("restaurants").child(restid).child("orders").child(restaurantOrderListItem.getId()).setValue(restaurantOrderListItem);
@@ -155,10 +159,14 @@ public class Cart extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<FoodOrder, CartViewHolder>(FoodOrder.class, R.layout.cart_layout, CartViewHolder.class, reference) {
             @Override
             protected void populateViewHolder(CartViewHolder viewHolder, FoodOrder model, int position) {
+                if (model==null){return;}
                 viewHolder.cartName.setText(model.getItemName());
-                int price = (Integer.parseInt(model.getPrice())) * (Integer.parseInt(model.getQuantity()));
-                viewHolder.cartPrice.setText(price + "");
-
+                try {
+                    int price = (Integer.parseInt(model.getPrice())) * (Integer.parseInt(model.getQuantity()));
+                    viewHolder.cartPrice.setText(price + "");
+                }catch (Exception e){
+                    Log.e("price","price is empty");
+                }
                 //a drawable to show the quantity of each item
                 TextDrawable textDrawable = TextDrawable.builder().beginConfig()
                         .textColor(Color.WHITE)
@@ -177,7 +185,11 @@ public class Cart extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         int sum = 0;
                         for (DataSnapshot dSnapshot : dataSnapshot.child(FirebaseAuth.getInstance().getUid()).getChildren()) {
-                            sum = sum + (Integer.parseInt(dSnapshot.child("price").getValue(String.class)) * Integer.parseInt(dSnapshot.child("quantity").getValue(String.class)));
+                            try {
+                                sum = sum + (Integer.parseInt(dSnapshot.child("price").getValue(String.class).trim()) * Integer.parseInt(dSnapshot.child("quantity").getValue(String.class).trim()));
+                            } catch (Exception e) {
+                                Log.e("price", "price is empty");
+                            }
                         }
                         textViewTotal.setText(numberFormat.format(sum) + "");
                     }

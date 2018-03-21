@@ -11,7 +11,8 @@ import java.util.UUID;
 
 public class RestaurantOrderListItem implements Serializable {
 
-    private String id, comments, time, price, pNumber, name;
+    private String id, comments, time, price, name;
+    private int pNumber;
     private String address;
     // items then amount
     private HashMap<String, String> items;
@@ -19,7 +20,7 @@ public class RestaurantOrderListItem implements Serializable {
     public RestaurantOrderListItem() {
     }
 
-    public RestaurantOrderListItem(String comments, String address, HashMap<String, String> items, String pNumber, String name, String price) {
+    public RestaurantOrderListItem(String comments, String address, HashMap<String, String> items, int pNumber, String name, String price) {
         this.comments = comments;
         this.address = address;
         this.items = items;
@@ -78,11 +79,11 @@ public class RestaurantOrderListItem implements Serializable {
         this.price = price;
     }
 
-    public String getpNumber() {
+    public int getpNumber() {
         return pNumber;
     }
 
-    public void setpNumber(String pNumber) {
+    public void setpNumber(int pNumber) {
         this.pNumber = pNumber;
     }
 

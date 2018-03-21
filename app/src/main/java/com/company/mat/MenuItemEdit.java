@@ -132,7 +132,9 @@ public class MenuItemEdit extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setImage(editText.getText().toString());
                         FirebaseDatabase.getInstance().getReference().child("menu").
-                                child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("imageURL").setValue(editText.getText().toString());
+                                child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(parent).child("foods").child(String.valueOf(itemNo))
+                                .child("imageURL").setValue(editText.getText().toString());
 
                     }
                 });

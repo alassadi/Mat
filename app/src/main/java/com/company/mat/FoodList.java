@@ -67,6 +67,8 @@ public class FoodList extends AppCompatActivity {
                         Intent detail = new Intent(FoodList.this, FoodDetail.class);
                         Bundle extras = new Bundle();
                         extras.putSerializable("Food", model);
+                        extras.putString("FoodID", adapter.getRef(position).getKey());
+                        extras.putString("RestaurantId",getIntent().getStringExtra("RestaurantId"));
                         detail.putExtras(extras);
                         startActivity(detail);
                     }

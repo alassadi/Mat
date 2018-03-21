@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class FoodDetail extends AppCompatActivity {
     ImageView foodImage;
     String foodId = "";
     CollapsingToolbarLayout collapsingToolbarLayout;
-    ElegantNumberButton elegantNumberButton;
+    EditText elegantNumberButton;
     FloatingActionButton floatingActionButton;
 
     FirebaseDatabase firebaseDatabase;
@@ -45,7 +46,7 @@ public class FoodDetail extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         food = firebaseDatabase.getReference("menu");
         foodOrder = firebaseDatabase.getReference("FoodOrders");
-        elegantNumberButton = (ElegantNumberButton) findViewById(R.id.number_button);
+        elegantNumberButton = (EditText) findViewById(R.id.number_button);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.buttonCart);
         foodName = (TextView) findViewById(R.id.food_name);
         foodDescription = (TextView) findViewById(R.id.food_description);
@@ -57,7 +58,9 @@ public class FoodDetail extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                order = new FoodOrder(getIntent().getStringExtra("FoodID").toString(), foodName.getText().toString(), elegantNumberButton.getNumber().toString(), foodPrice.getText().toString(), getIntent().getStringExtra("RestaurantId"));
+                order = new FoodOrder(getIntent().getStringExtra("FoodID").toString(),
+                        foodName.getText().toString(), elegantNumberButton.getText().toString().trim(),
+                        foodPrice.getText().toString().trim(), getIntent().getStringExtra("RestaurantId"));
                 ////////// order id
                 foodOrder.child(FirebaseAuth.getInstance().getUid()).child(UUID.randomUUID().toString()).setValue(order);
                 Toast.makeText(getApplicationContext(), "Added to Cart.", Toast.LENGTH_SHORT).show();
@@ -66,7 +69,7 @@ public class FoodDetail extends AppCompatActivity {
         });
 
         if (getIntent() != null) {
-            //foodId = getIntent().getStringExtra("FoodID");
+            //foodId = getIntent().getStringExtra("FoodID");adapter.getRef(position).getKey()
             foodObj = (Food) getIntent().getSerializableExtra("Food");
             if (food != null) {
                 foodName.setText(foodObj.getName());
