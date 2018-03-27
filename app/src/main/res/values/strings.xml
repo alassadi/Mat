@@ -31,6 +31,43 @@
     <string name="mat">Mat</string>
     <string name="food">Food</string>
 
+    <!-- Delivery part-->
+    <string name="customerName" />
+    <string name="restName" />
+    <string name="timeFood" />
+
+    <!-- Delivery fragment -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="customername" />
+    <string name="customerAddress" />
+    <string name="acceptDelivery">Set Delivered</string>
+    <string name="deliveryitemid" />
+    <string name="deliveryname">"   DETAILS"</string>
+    <string name="deliveryaddress" />
+    <string name="deliverysetid" />
+    <string name="deliverysetname" />
+    <string name="deliverysetaddress" />
+    <string name="deliveryrestname" />
+    <string name="deliveryrestaname" />
+    <string name="deliverysetrestname" />
+    <string name="setdeliverystatus" />
+    <string name="mydeliverycustomername" />
+    <string name="mydeliveryrestaurantname" />
+    <string name="myseliverystatus" />
+    <string name="dialogtitle">Order Details</string>
+    <string name="dialogcustomername" />
+    <string name="actionfavorite" />
+    <string name="actionsettings" />
+    <string name="title_activity_child">title_activty_child</string>
+    <string name="derliveryImg" />
+    <string name="mydeliveryimg" />
+    <string name="phoneimage" />
+    <string name="mobileImage" />
+    <string name="customerNameImage" />
+    <string name="restaurantNameImage" />
+    <string name="addressImage" />
+    <string name="deliveryStatusImage" />
+
     <!-- Menu Items -->
     <string name="price">Price</string>
     <string name="itemName">Item Name</string>

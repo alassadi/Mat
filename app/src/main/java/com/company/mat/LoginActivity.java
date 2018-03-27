@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.company.mat.Model.Address;
 import com.company.mat.Model.Restaurant;
+import com.company.mat.Model.DeliveryItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -105,11 +106,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                             FirebaseUser user = mAuth.getCurrentUser();
-                            FirebaseDatabase.getInstance().getReference().child("restaurants")
-                                    .child(user.getUid()).setValue(
-                                    new Restaurant("restaurant name",
-                                            new Address("street", "city", "region", "postcode"),
-                                            "description"));
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -121,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         hideProgressDialog();
                     }
                 });
+        // [END create_user_with_email]
     }
 
     @Override
@@ -137,11 +134,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         // here transition to the new activitiy with the user passed
-
+        // needs to keep the user logged in ++++++
         // add sign out
 
         if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, RestaurantList.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }
