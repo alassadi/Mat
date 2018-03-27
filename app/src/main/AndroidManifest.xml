@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.company.mat">
 
-    <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -24,13 +22,28 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".DeliveryManActivity"/>
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+        </activity>
         <activity android:name=".RestaurantAccount" />
         <activity android:name=".EditRestaurantProfile" />
         <activity android:name=".RestaurantEditAddress" />
+        <activity android:name=".FoodList" />
+        <activity android:name=".FoodDetail" />
+        <activity android:name=".RestaurantEditMenu" />
+        <activity android:name=".MenuItemEdit" />
+        <activity android:name=".RestaurantList" />
+        <activity android:name=".RestaurantOrderListActivity" />
+        <activity android:name=".RestaurantOrderItemDetails"/>
+        <activity android:name=".Cart"/>
+        <activity android:name=".DeliveryManActivity"/>
         <activity android:name=".DeliveryDetailActivity" />
         <activity android:name=".MyDeliveryActivity">
         </activity>
+
     </application>
 
 </manifest>

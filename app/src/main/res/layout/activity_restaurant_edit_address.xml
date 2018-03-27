@@ -17,6 +17,7 @@
         android:hint="@string/street"
         android:inputType="textPersonName"
         android:maxLines="1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +33,7 @@
         android:hint="@string/city"
         android:inputType="textPersonName"
         android:maxLines="1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRestaurantAddressStreet" />
@@ -47,6 +49,7 @@
         android:hint="@string/postCode"
         android:inputType="number"
         android:maxLines="1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRestaurantAddressCity" />
@@ -62,6 +65,7 @@
         android:hint="@string/region"
         android:inputType="textPersonName"
         android:maxLines="1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRestaurantAddressPostCode" />
@@ -76,6 +80,7 @@
         android:layout_marginStart="8dp"
         android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:text="@string/saveInput"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

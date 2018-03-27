@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 
 public class EditRestaurantProfile extends AppCompatActivity {
 
@@ -50,7 +52,10 @@ public class EditRestaurantProfile extends AppCompatActivity {
                 restaurant.setDescription(description.getText().toString());
                 restaurant.setName(name.getText().toString());
                 dbref.setValue(restaurant);
-
+                HashMap<String, Object> children = new HashMap<>();
+                children.put("name", restaurant.getName());
+                children.put("description", restaurant.getDescription());
+                dbref.updateChildren(children);
                 onBackPressed();
             }
         });

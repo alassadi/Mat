@@ -11,12 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.mat.Model.Address;
+import com.company.mat.Model.Restaurant;
 import com.company.mat.Model.DeliveryItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +43,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         statusTest = findViewById(R.id.status);
 
         mAuth = FirebaseAuth.getInstance();
+
+        /* this line is to prevent the background image from cropping
+           or resizing when the keyboard appears.
+        */
+        getWindow().setBackgroundDrawableResource(R.drawable.loginimage);
     }
 
     @Override
@@ -121,7 +129,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             createAccount(email.getText().toString(), password.getText().toString());
         }
 
-
     }
 
     private void updateUI(FirebaseUser user) {
@@ -131,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // add sign out
 
         if (user != null) {
-            Intent intent = new Intent(this, DeliveryManActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }
